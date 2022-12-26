@@ -1,17 +1,25 @@
 <% layout("layouts/boilerplate") %>
 <h1 class="text-primary text-center"><%= product.title %></h1>
+<div class="d-flex flex-row justify-content-evenly">
+    <span>Total consumption days</span>
+    <span>Total spent</span>
+    <span>Average per consumption month</span>
+    <span>Average per calendar month</span>
+</div>
 <div class="d-flex justify-content-evenly flex-wrap mt-5">
     <% for (let purchase of product.purchases) {%>
     <div class="card bg-info text-secondary mb-4">
         <div class="card-header bg-primary">
-            <h5 class="card-title"><%= purchase.store.name %> - <small><%= purchase.store.branch %> </small></h5>
-            <h6 class="card-subtitle text-light"><%=purchase.purchaseDate%></h6>
+            <h5 class="card-title"><%= purchase.store.name %><small><%- purchase.store.branch? ` - ${purchase.store.branch}` : ""%> </small></h5>
+            <h6 class="card-subtitle text-light">Purchase Date: <%=purchase.purchaseDate%></h6>
         </div>
         <div class="card-body">
             <p class="card-text">Price: &#8362; <%= purchase.price.toFixed(2) %></p>
             <p class="card-text">Amount: <%= purchase.quantity.toFixed(3)%> kg</p>
             <% if (purchase.usagePeriod.track) {%>
-            <p class="card-text">Usage Period: <%= purchase.usagePeriodLength %></p>
+            <p class="card-text">Dates: <%= purchase.usageDates %></p>
+            <p class="card-text">Days Used: <%= purchase.daysUsed %></p>
+            <p class="card-text">Monthly Cost: &#8362; <%= ((purchase.price / purchase.daysUsed) * (365/12)).toFixed(2) %></p>
             <% } %>
         </div>
     </div>
