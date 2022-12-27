@@ -56,8 +56,8 @@ const ProductSchema = new Schema({
     },
 });
 
-ProductSchema.virtual("pathifiedTitle").get(function () {
-    return this.title.replaceAll(",", "").replaceAll(" ", "_");
+ProductSchema.virtual("path").get(function () {
+    return `${this._id}-${this.title.replaceAll(",", "").replaceAll(" ", "_")}`;
 });
 
 ProductSchema.virtual("categories").get(function () {

@@ -1,33 +1,40 @@
 <% layout("layouts/boilerplate") %>
 <h1 class="text-primary text-center mb-3"><%= product.title %></h1>
+<div class="col-4 offset-4 d-flex justify-content-between mb-3">
+    <a href="/products/<%= product.path %>/edit" class="btn btn-info">Edit Product</a>
+    <a class="btn btn-info disabled">Add Purchase</a>
+    <form action="/products/<%= product.path %>?_method=DELETE " method="POSt">
+        <button class="btn btn-info">Delete</button>
+    </form>
+</div>
 <% if (product.purchases.length > 0) {%>
-<div class="d-flex flex-row justify-content-evenly flex-wrap">
+<div class="d-flex flex-row justify-content-evenly flex-wrap color-primary">
     <div class="card bg-light mb-3 mx-1">
-        <div class="card-header">Total spent</div>
+        <div class="card-header bg-secondary">Total spent</div>
         <div class="card-text text-center">&#8362; <%= product.totalSpent %></div>
     </div>
     <div class="card bg-light mb-3 mx-1">
-        <div class="card-header">Total Bought</div>
+        <div class="card-header bg-secondary">Total Bought</div>
         <div class="card-text text-center"><%= product.totalBought %> <%= product.measureUnit %></div>
     </div>
     <div class="card bg-light mb-3 mx-1">
-        <div class="card-header">Averge Price</div>
+        <div class="card-header bg-secondary">Averge Price</div>
         <div class="card-text text-center">&#8362; <%= product.averagePrice %> / <%= product.measureUnit %></div>
     </div>
     <% if (product.trackUsagePeriod) {%>
     <div class="card bg-light mb-3 mx-1">
-        <div class="card-header">Total consumption days</div>
+        <div class="card-header bg-secondary">Total consumption days</div>
         <div class="card-text text-center"><%= product.totalConsumptionDays %> days</div>
     </div>
     <div class="card bg-light mb-3 mx-1">
-        <div class="card-header">Average monthly cost (consumption)</div>
+        <div class="card-header bg-secondary">Average monthly cost (consumption)</div>
         <div class="card-text text-center">&#8362; <%= ((product.totalSpent / product.totalConsumptionDays)*(365/12)).toFixed(2) %></div>
     </div>
+    <% } %>
     <div class="card bg-light mb-3 mx-1">
-        <div class="card-header">Average monthly cost (calendar)</div>
+        <div class="card-header bg-secondary">Average monthly cost (calendar)</div>
         <div class="card-text text-center">&#8362; <%= product.averageMonthlyCost %></div>
     </div>
-    <% } %>
 </div>
 <div class="d-flex justify-content-evenly flex-wrap mt-4">
     <% for (let purchase of product.purchases) {%>
@@ -43,6 +50,12 @@
             <p class="card-text">Days Used: <%= purchase.daysUsed %></p>
             <p class="card-text">Monthly Cost: &#8362; <%= ((purchase.price / purchase.daysUsed) * (365/12)).toFixed(2) %></p>
             <% } %>
+        </div>
+        <div class="card-footer bg-primary d-flex justify-content-between">
+            <a href="#" class="btn btn-info disabled">Edit Purchase</a>
+            <form action="/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-info disabled">Delete</button>
+            </form>
         </div>
     </div>
     <% } %>
