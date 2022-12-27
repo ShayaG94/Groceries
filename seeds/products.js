@@ -2,6 +2,8 @@ module.exports.products = [
     {
         title: "Wallnuts, Crushed",
         category: "Food",
+        measureUnit: "kg",
+        trackUsagePeriod: true,
         purchases: [
             {
                 store: {
@@ -11,12 +13,13 @@ module.exports.products = [
                 purchaseDate: "15/10/2020",
                 quantity: 0.2,
                 price: 17.9,
-                usagePeriod: {
-                    track: true,
-                    startDate: "16/10/2020",
-                    endDate: "02/11/2020",
-                },
+                startConsDate: String,
+                endConsDate: String,
+
+                startConsDate: "16/10/2020",
+                endConsDate: "02/11/2020",
             },
+
             {
                 store: {
                     name: "Rami Levi",
@@ -25,17 +28,17 @@ module.exports.products = [
                 purchaseDate: "03/11/2020",
                 quantity: 0.2,
                 price: 17.9,
-                usagePeriod: {
-                    track: true,
-                    startDate: "04/11/2020",
-                    endDate: "19/11/2020",
-                },
+
+                startConsDate: "04/11/2020",
+                endConsDate: "19/11/2020",
             },
         ],
     },
     {
         title: "Blueberries",
         category: "Food",
+        measureUnit: "kg",
+        trackUsagePeriod: false,
         purchases: [
             {
                 store: {
@@ -47,8 +50,8 @@ module.exports.products = [
                 price: 15,
                 usagePeriod: {
                     track: false,
-                    startDate: "",
-                    endDate: "",
+                    startConsDate: "",
+                    endConsDate: "",
                 },
             },
         ],
@@ -56,6 +59,8 @@ module.exports.products = [
     {
         title: "Rice, Jasmine",
         category: "Food",
+        measureUnit: "kg",
+        trackUsagePeriod: true,
         purchases: [
             {
                 store: {
@@ -65,12 +70,11 @@ module.exports.products = [
                 purchaseDate: "28/10/2019",
                 quantity: 1.0,
                 price: 7.9,
-                usagePeriod: {
-                    track: true,
-                    startDate: "19/11/2019",
-                    endDate: "01/01/2020",
-                },
+
+                startConsDate: "19/11/2019",
+                endConsDate: "01/01/2020",
             },
+
             {
                 store: {
                     name: "Rami Levi",
@@ -79,12 +83,11 @@ module.exports.products = [
                 purchaseDate: "12/12/2019",
                 quantity: 1.0,
                 price: 7.9,
-                usagePeriod: {
-                    track: true,
-                    startDate: "01/01/2020",
-                    endDate: "07/02/2020",
-                },
+
+                startConsDate: "01/01/2020",
+                endConsDate: "07/02/2020",
             },
+
             {
                 store: {
                     name: "Rami Levi",
@@ -93,12 +96,11 @@ module.exports.products = [
                 purchaseDate: "03/02/2020",
                 quantity: 1.0,
                 price: 7.16,
-                usagePeriod: {
-                    track: true,
-                    startDate: "26/02/2020",
-                    endDate: "01/04/2020",
-                },
+
+                startConsDate: "26/02/2020",
+                endConsDate: "01/04/2020",
             },
+
             {
                 store: {
                     name: "Rami Levi",
@@ -107,12 +109,11 @@ module.exports.products = [
                 purchaseDate: "01/04/2020",
                 quantity: 1.0,
                 price: 7.9,
-                usagePeriod: {
-                    track: true,
-                    startDate: "02/04/2020",
-                    endDate: "07/05/2020",
-                },
+
+                startConsDate: "02/04/2020",
+                endConsDate: "07/05/2020",
             },
+
             {
                 store: {
                     name: "Rami Levi",
@@ -121,12 +122,11 @@ module.exports.products = [
                 purchaseDate: "01/04/2020",
                 quantity: 1.0,
                 price: 7.9,
-                usagePeriod: {
-                    track: true,
-                    startDate: "13/05/2020",
-                    endDate: "30/06/2020",
-                },
+
+                startConsDate: "13/05/2020",
+                endConsDate: "30/06/2020",
             },
+
             {
                 store: {
                     name: "Rami Levi",
@@ -135,12 +135,11 @@ module.exports.products = [
                 purchaseDate: "31/05/2020",
                 quantity: 1.0,
                 price: 7.9,
-                usagePeriod: {
-                    track: true,
-                    startDate: "12/07/2020",
-                    endDate: "12/08/2020",
-                },
+
+                startConsDate: "12/07/2020",
+                endConsDate: "12/08/2020",
             },
+
             {
                 store: {
                     name: "Rami Levi",
@@ -149,12 +148,17 @@ module.exports.products = [
                 purchaseDate: "17/06/2020",
                 quantity: 1.0,
                 price: 7.3,
-                usagePeriod: {
-                    track: true,
-                    startDate: "12/08/2020",
-                    endDate: "18/10/2020",
-                },
+
+                startConsDate: "12/08/2020",
+                endConsDate: "18/10/2020",
             },
         ],
+    },
+    {
+        title: "TestProd",
+        category: "Food",
+        measureUnit: "unit",
+        trackUsagePeriod: true,
+        purchases: [],
     },
 ];

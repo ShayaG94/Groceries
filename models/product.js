@@ -9,15 +9,12 @@ const PurchaseSchema = new Schema({
     purchaseDate: String,
     quantity: Number,
     price: Number,
-    usagePeriod: {
-        track: Boolean,
-        startDate: String,
-        endDate: String,
-    },
+    startConsDate: String,
+    endConsDate: String,
 });
 
 PurchaseSchema.virtual("usageDates").get(function () {
-    return `${this.usagePeriod.startDate} - ${this.usagePeriod.endDate}`;
+    return `${this.startConsDate} - ${this.endConsDate}`;
 });
 
 const splitDate = (date) => {
@@ -36,18 +33,24 @@ const calcDaysDifference = (startDate, endDate) => {
 };
 
 PurchaseSchema.virtual("daysUsed").get(function () {
-    const startDate = UTCizeDate(this.usagePeriod.startDate);
-    const endDate = UTCizeDate(this.usagePeriod.endDate);
+    const startDate = UTCizeDate(this.startConsDate ? this.startConsDate : this.purchaseDate);
+    const endDate = UTCizeDate(this.endConsDate ? this.endConsDate : "28/11/2020");
     return calcDaysDifference(startDate, endDate) + 1;
 });
 
 const ProductSchema = new Schema({
     title: String,
-    category: String,
-    measure: {
+    category: {
         type: String,
-        enum: ["kg", "liters", "units"],
+        enum: ["food"],
+        lowercase: true,
     },
+    measureUnit: {
+        type: String,
+        enum: ["kg", "liter", "unit"],
+        lowercase: true,
+    },
+    trackUsagePeriod: Boolean,
     purchases: {
         type: [PurchaseSchema],
     },
@@ -57,10 +60,39 @@ ProductSchema.virtual("pathifiedTitle").get(function () {
     return this.title.replaceAll(",", "").replaceAll(" ", "_");
 });
 
-ProductSchema.virtual("averagePrice").get(function () {
-    let totalSpent = 0;
-    this.purchases.forEach((purchase) => (totalSpent += purchase.price));
-    return (totalSpent / this.purchases.length).toFixed(2);
+ProductSchema.virtual("categories").get(function () {
+    return this.category.enum;
 });
 
+ProductSchema.virtual("totalSpent").get(function () {
+    let totalSpent = 0;
+    this.purchases.forEach((purchase) => (totalSpent += purchase.price));
+    return totalSpent.toFixed(2);
+});
+
+ProductSchema.virtual("totalBought").get(function () {
+    let totalBought = 0;
+    this.purchases.forEach((purchase) => (totalBought += purchase.quantity));
+    if (this.measureUnit === "unit") {
+        return totalBought;
+    } else {
+        return totalBought.toFixed(3);
+    }
+});
+ProductSchema.virtual("averagePrice").get(function () {
+    return (this.totalSpent / this.totalBought).toFixed(2);
+});
+
+ProductSchema.virtual("totalConsumptionDays").get(function () {
+    let totalDays = 0;
+    this.purchases.forEach((purchase) => (totalDays += purchase.daysUsed));
+    return totalDays;
+});
+
+ProductSchema.virtual("averageMonthlyCost").get(function () {
+    const startDate = UTCizeDate(this.purchases[0].purchaseDate);
+    const endDate = UTCizeDate(this.trackUsagePeriod ? this.purchases[this.purchases.length - 1].endConsDate : "28/11/2020");
+    const totalDays = calcDaysDifference(startDate, endDate) + 1;
+    return ((this.totalSpent / totalDays) * (365 / 12)).toFixed(2);
+});
 module.exports = mongoose.model("Product", ProductSchema);

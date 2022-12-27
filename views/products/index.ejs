@@ -5,7 +5,7 @@
     <div class="card bg-info text-secondary mb-3">
         <div class="card-header bg-primary">
             <h5 class="card-title"><%= product.title %></h5>
-            <h6 class="card-subtitle text-light"><%=product.category%></h6>
+            <h6 class="card-subtitle text-light capitalize"><%=product.category%></h6>
         </div>
         <div class="card-body productIndexCard" onclick="window.location = 'products/<%= product._id %>-<%=product.pathifiedTitle %> ' ">
             <p class="card-text">Purchases: <%= product.purchases.length %></p>

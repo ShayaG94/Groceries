@@ -37,7 +37,9 @@ app.get("/products", async (req, res) => {
     res.render("products/index", { products });
 });
 app.get("/products/new", async (req, res) => {
-    res.render("products/new");
+    const categories = Product.schema.obj.category.enum;
+    const measureUnits = Product.schema.obj.measureUnit.enum;
+    res.render("products/new", { categories, measureUnits });
 });
 
 app.get("/products/:id-:name", async (req, res) => {

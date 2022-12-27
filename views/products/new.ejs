@@ -1,2 +1,31 @@
 <% layout("layouts/boilerplate") %>
-<h1 class="text-primary text-center">Add a Product</h1>
+<h1 class="text-primary text-center">Create New Product</h1>
+<div class="d-flex justify-content-center text-primary">
+    <form action="" class="d-flex flex-column bg-secondary px-4 py-3 rounded align-items-start">
+        <div class="mb-3 form-floating">
+            <input type="text" class="form-control bg-light" id="title" name="product[title]" placeholder="Title" />
+            <label for="title" class="form-label">Title</label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label d-block">Measure:</label>
+            <div class="rounded px-2 py-1 bg-secondary">
+                <% for (let MU of measureUnits) {%>
+                <div class="form-check form-check-inline cursor-pointer">
+                    <input type="radio" class="form-check-input bg-light cursor-pointer" id="<%= MU %> " value="<%= MU %>" name="measure" />
+                    <label for="<%= MU %>" class="form-check-label cursor-pointer capitalize"><%= MU %></label>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category:</label>
+            <select name="category" id="category" class="form-select bg-light form-control capitalize">
+                <option value="">Select Category:</option>
+                <% for (let category of categories) { %>
+                <option value="<%= category %> "><%= category %></option>
+                <% } %>
+            </select>
+        </div>
+        <button class="btn btn-info align-self-center" type="submit">Create Product</button>
+    </form>
+</div>

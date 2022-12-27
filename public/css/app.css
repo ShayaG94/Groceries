@@ -32,3 +32,32 @@ img.navbar-brand {
     max-height: 100%;
     
 }
+
+.form-control {
+    border: 1px solid rgba(48,88,110,255)!important
+}
+
+.btn-info {
+    --bs-btn-color: rgba(231,201,132,255)!important;
+    --bs-btn-bg: rgba(48,88,110,255)!important;
+    --bs-btn-border-color: rgba(48,88,110,255)!important;
+    --bs-btn-hover-color: rgba(231,201,132,255)!important;
+    --bs-btn-hover-bg: rgba(55,101,126,255)!important;
+    --bs-btn-hover-border-color: rgba(55,101,126,255)!important;
+    --bs-btn-focus-shadow-rgb: 11,172,204;
+    --bs-btn-active-color: rgba(231,201,132,255)!important;
+    --bs-btn-active-bg: rgba(62,114,143,255)!important   ;
+    --bs-btn-active-border-color: rgba(48,88,110,255)!important;
+    --bs-btn-active-shadow: inset 0 3px 5pxrgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: rgba(231,201,132,255)!important;
+    --bs-btn-disabled-bg: rgba(48,88,110,175)!important;
+    --bs-btn-disabled-border-color: rgba(48,88,110,175)!important;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.cursor-pointer {
+    cursor: pointer!important;
+}
