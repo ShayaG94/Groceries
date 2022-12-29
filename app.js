@@ -41,7 +41,7 @@ app.get("/products", async (req, res) => {
     res.render("products/index", { products });
 });
 app.get("/products/new", (req, res) => {
-    res.render("products/new");
+    res.render("products/newProduct");
 });
 
 app.post("/products", async (req, res) => {
@@ -60,6 +60,11 @@ app.get("/products/:id-:name", async (req, res) => {
 app.get("/products/:id-:name/edit", async (req, res) => {
     const product = await Product.findById(req.params.id);
     res.render("products/edit", { product });
+});
+
+app.get("/products/:id-:name/purchases", async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    res.render("products/purchases", { product });
 });
 
 app.put("/products/:id-:name", async (req, res) => {

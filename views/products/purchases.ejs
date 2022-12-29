@@ -1,0 +1,36 @@
+<% layout("layouts/boilerplate") %>
+<h1 class="text-primary text-center mb-3"><%= product.title %></h1>
+<h2 class="text-primary text-center mb-3">Product Purchases</h2>
+<div class="col-8 offset-2 d-flex flex-wrap justify-content-around mb-3">
+    <a href="/products/<%= product.path %> " class="btn btn-info mb-2 mb-md-0">Back to Product</a>
+    <a class="btn btn-info disabled">Add Purchase</a>
+</div>
+<% if (product.purchases.length > 0) {%>
+<div class="col-10 offset-1 d-flex justify-content-between flex-wrap mt-4">
+    <% for (let purchase of product.purchases) {%>
+    <div class="card bg-info text-secondary mb-4">
+        <div class="card-header bg-primary">
+            <h5 class="card-title"><%= purchase.store.name %><small><%- purchase.store.branch? ` - ${purchase.store.branch}` : ""%> </small></h5>
+            <h6 class="card-subtitle text-light">Purchase Date: <%=purchase.purchaseDate%></h6>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Price: &#8362; <%= purchase.price.toFixed(2) %></p>
+            <p class="card-text">
+                Amount: <%= product.measureUnit === "unit" ? purchase.quantity : purchase.quantity.toFixed(3)%> <%= product.measureUnit %><%=
+                purchase.quantity > 1 ? "s" : "" %>
+            </p>
+            <% if (product.trackUsagePeriod) {%>
+            <p class="card-text">Days Used: <%= purchase.daysUsed %></p>
+            <p class="card-text">Monthly Cost: &#8362; <%= ((purchase.price / purchase.daysUsed) * (365/12)).toFixed(2) %></p>
+            <% } %>
+        </div>
+        <div class="card-footer bg-primary d-flex justify-content-between">
+            <a href="#" class="btn btn-info disabled">Edit Purchase</a>
+            <form action="/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-info disabled">Delete</button>
+            </form>
+        </div>
+    </div>
+    <% } %>
+</div>
+<% } %>

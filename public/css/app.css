@@ -61,3 +61,7 @@ img.navbar-brand {
 .cursor-pointer {
     cursor: pointer!important;
 }
+
+.w-30 {
+    width: 30%;
+}
