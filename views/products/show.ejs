@@ -38,7 +38,7 @@
 <div class="col-8 offset-2 d-flex flex-wrap justify-content-around mb-3 mt-auto">
     <a href="/products/<%= product.path %>/purchases" class="btn btn-info mb-2 mb-md-0">View Purchases</a>
     <a href="/products/<%= product.path %>/edit" class="btn btn-info">Edit Product</a>
-    <form action="/products/<%= product.path %>?_method=DELETE " method="POSt">
+    <form action="/products/<%= product.path %>?_method=DELETE " method="POST">
         <button class="btn btn-info">Delete Product</button>
     </form>
 </div>

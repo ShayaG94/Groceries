@@ -10,7 +10,6 @@
         <div class="card-body productIndexCard" onclick="window.location = 'products/<%= product.path %>' ">
             <% if (product.purchases.length > 0) { %>
             <p class="card-text">Purchases: <%= product.purchases.length %></p>
-            <p class="card-text">Avg. Price: &#8362; <%= product.averagePrice%></p>
             <% } %>
         </div>
     </div>

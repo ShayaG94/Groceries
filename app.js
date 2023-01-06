@@ -1,10 +1,11 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const Product = require("./models/product");
+const { Product } = require("./models/product");
+const { Purchase } = require("./models/purchase");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-const product = require("./models/product");
+const { UTCizeDate, calcDaysDifference, stringifyDate } = require("./customModules/helpers");
 
 mongoose.set("strictQuery", true);
 mongoose.connect("mongodb://localhost:27017/groceries-app");
@@ -31,6 +32,10 @@ app.use(methodOverride("_method"));
 
 app.locals.categories = Product.schema.obj.category.enum;
 app.locals.measureUnits = Product.schema.obj.measureUnit.enum;
+app.locals.inputifyDate = function (date) {
+    const [day, month, year] = date.split("/");
+    return `${year}-${month}-${day}`;
+};
 
 app.get("/", (req, res) => {
     res.render("home");
@@ -40,6 +45,7 @@ app.get("/products", async (req, res) => {
     const products = await Product.find().sort({ title: 1 });
     res.render("products/index", { products });
 });
+
 app.get("/products/new", (req, res) => {
     res.render("products/newProduct");
 });
@@ -54,29 +60,84 @@ app.post("/products", async (req, res) => {
 
 app.get("/products/:id-:name", async (req, res) => {
     const product = await Product.findById(req.params.id);
+    await product.populate("purchases");
+    product.totalBought = product.purchases.reduce((acc, purchase) => acc + purchase.quantity, 0).toFixed(3);
+    product.totalSpent = product.purchases.reduce((acc, purchase) => acc + purchase.price, 0).toFixed(2);
+    product.averagePrice = (product.totalSpent / product.totalBought).toFixed(2);
+    product.totalConsumptionDays = product.purchases.reduce((acc, purchase) => acc + purchase.daysUsed, 0);
+    product.averageMonthlyCost = (
+        (product.totalSpent /
+            (calcDaysDifference(
+                UTCizeDate(product.purchases[0].purchaseDate),
+                UTCizeDate(product.trackUsagePeriod ? product.purchases[product.purchases.length - 1].purchaseDate : "28/11/2020")
+            ) +
+                1)) *
+        (365 / 12)
+    ).toFixed(2);
     res.render("products/show", { product });
 });
 
 app.get("/products/:id-:name/edit", async (req, res) => {
     const product = await Product.findById(req.params.id);
-    res.render("products/edit", { product });
-});
-
-app.get("/products/:id-:name/purchases", async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    res.render("products/purchases", { product });
+    res.render("products/editProduct", { product });
 });
 
 app.put("/products/:id-:name", async (req, res) => {
     const data = req.body.product;
     data.trackUsagePeriod === "true" ? (data.trackUsagePeriod = true) : (data.trackUsagePeriod = false);
-    await Product.findByIdAndUpdate(req.params.id, { ...data });
+    const product = await Product.findByIdAndUpdate(req.params.id, { ...data }, { new: true });
     res.redirect(`/products/${product.path}`);
 });
 
 app.delete("/products/:id-:name", async (req, res) => {
     await Product.findByIdAndDelete(req.params.id);
     res.redirect("/products");
+});
+
+app.get("/products/:id-:name/purchases", async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    await product.populate("purchases");
+    res.render("products/purchases", { product });
+});
+
+app.get("/products/:id-:name/purchases/new", async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    res.render("products/newPurchase", { product });
+});
+
+app.post("/products/:id-:name/purchases", async (req, res) => {
+    const data = req.body.purchase;
+    data.purchaseDate = stringifyDate(data.purchaseDate);
+    data.startConsDate = stringifyDate(data.startConsDate);
+    data.endConsDate = stringifyDate(data.endConsDate);
+
+    const product = await Product.findById(req.params.id);
+    data.productID = product._id;
+    const purchase = new Purchase(data);
+    product.purchases.push(purchase._id);
+    await purchase.save();
+    await product.save();
+    res.redirect(`/products/${product.path}/purchases`);
+});
+
+app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    const purchase = await Purchase.findById(req.params.purchaseId);
+    res.render("products/editPurchase", { product, purchase });
+});
+
+app.put("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
+    const data = req.body.purchase;
+    data.purchaseDate = stringifyDate(data.purchaseDate);
+    const purchase = await Purchase.findByIdAndUpdate(req.params.purchaseId, data, { new: true });
+    const productPath = `${req.params.id}-${req.params.name}`;
+    res.redirect(`/products/${productPath}/purchases`);
+});
+
+app.delete("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
+    await Purchase.findByIdAndDelete(req.params.purchaseId);
+    const productPath = `${req.params.id}-${req.params.name}`;
+    res.redirect(`/products/${productPath}/purchases`);
 });
 
 app.listen(3000, () => {

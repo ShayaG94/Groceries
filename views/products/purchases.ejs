@@ -3,10 +3,10 @@
 <h2 class="text-primary text-center mb-3">Product Purchases</h2>
 <div class="col-8 offset-2 d-flex flex-wrap justify-content-around mb-3">
     <a href="/products/<%= product.path %> " class="btn btn-info mb-2 mb-md-0">Back to Product</a>
-    <a class="btn btn-info disabled">Add Purchase</a>
+    <a href="/products/<%= product.path %>/purchases/new" class="btn btn-info">Add Purchase</a>
 </div>
 <% if (product.purchases.length > 0) {%>
-<div class="col-10 offset-1 d-flex justify-content-between flex-wrap mt-4">
+<div class="col-10 offset-1 d-flex justify-content-around flex-wrap mt-4">
     <% for (let purchase of product.purchases) {%>
     <div class="card bg-info text-secondary mb-4">
         <div class="card-header bg-primary">
@@ -25,9 +25,9 @@
             <% } %>
         </div>
         <div class="card-footer bg-primary d-flex justify-content-between">
-            <a href="#" class="btn btn-info disabled">Edit Purchase</a>
-            <form action="/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-info disabled">Delete</button>
+            <a href="/products/<%= product.path %> /purchases/<%= purchase._id %>/edit" class="btn btn-info">Edit Purchase</a>
+            <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-info">Delete</button>
             </form>
         </div>
     </div>

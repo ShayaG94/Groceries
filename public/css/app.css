@@ -36,6 +36,9 @@ img.navbar-brand {
 .form-control {
     border: 1px solid rgba(48,88,110,255)!important
 }
+.form-control-sm {
+    border: 1px solid rgba(48,88,110,255)!important
+}
 
 .btn-info {
     --bs-btn-color: rgba(231,201,132,255)!important;
@@ -63,5 +66,25 @@ img.navbar-brand {
 }
 
 .w-30 {
-    width: 30%;
+    width: 30%!important;
+}
+.w-40 {
+    width: 40%!important;
+}
+.w-60 {
+    width: 60%!important;
+}
+
+input[type="date"] {
+    width: auto;
+}
+
+.border-primary {
+    border: 1px solid rgba(48,88,110,255)!important;
+}
+
+.form-check-input:checked[type="radio"]{
+    background-image: none!important;
+    background-color: rgba(48,88,110,255)!important;
+    border: 2px solid rgba(13,31,45,255)!important;
 }
