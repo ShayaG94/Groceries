@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { products } = require("./products");
 const { Product } = require("../models/product");
 const { Purchase } = require("../models/purchase");
+const { Category } = require("../models/category");
 
 mongoose.set("strictQuery", true);
 mongoose.connect("mongodb://localhost:27017/groceries-app");
@@ -15,13 +16,26 @@ db.once("open", () => {
 const seedDB = async () => {
     await Product.deleteMany({});
     await Purchase.deleteMany({});
+    await Category.deleteMany({});
 
     for (let product of products) {
         const { purchases } = product;
         const purchaseIDs = [];
         product.purchases = [];
 
+        let category;
+        const categoriesDB = await Category.find({});
+        if (categoriesDB.length === 0 || !categoriesDB.some((category) => category.name === product.category.toLowerCase())) {
+            category = new Category({ name: product.category });
+            await category.save();
+        } else {
+            category = await Category.findOne({ name: product.category.toLowerCase() });
+        }
+
+        product.category = category._id;
         const newProd = new Product(product);
+        category.products.push(newProd._id);
+        await category.save();
         await newProd.save();
 
         for (let purchase of purchases) {

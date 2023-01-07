@@ -30,7 +30,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-app.locals.categories = Product.schema.obj.category.enum;
 app.locals.measureUnits = Product.schema.obj.measureUnit.enum;
 app.locals.inputifyDate = function (date) {
     const [day, month, year] = date.split("/");
@@ -129,7 +128,7 @@ app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
 app.put("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
     const data = req.body.purchase;
     data.purchaseDate = stringifyDate(data.purchaseDate);
-    const purchase = await Purchase.findByIdAndUpdate(req.params.purchaseId, data, { new: true });
+    await Purchase.findByIdAndUpdate(req.params.purchaseId, data, { new: true });
     const productPath = `${req.params.id}-${req.params.name}`;
     res.redirect(`/products/${productPath}/purchases`);
 });
