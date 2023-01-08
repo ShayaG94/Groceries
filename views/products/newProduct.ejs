@@ -29,7 +29,7 @@
             <select name="product[category]" id="category" class="form-select bg-light form-control capitalize" required>
                 <option value="">Select Category:</option>
                 <% for (let category of categories) { %>
-                <option value="<%= category %>"><%= category %></option>
+                <option value="<%= category.name %>"><%= category.name %></option>
                 <% } %>
             </select>
         </div>
