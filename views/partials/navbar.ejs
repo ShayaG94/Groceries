@@ -20,6 +20,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/products/new">New Product</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Categories </a>
+                    <ul class="dropdown-menu bg-primary text-light">
+                        <% for (let category of categories) {%>
+                        <li><a class="dropdown-item capitalize nav-link" href="#"><%= category %> </a></li>
+                        <% } %>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

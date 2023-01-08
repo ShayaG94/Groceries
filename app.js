@@ -31,6 +31,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+app.use("/", async (req, res, next) => {
+    const categories = await Category.find();
+    app.locals.categories = categories.map((category) => category.name);
+    next();
+});
+
 app.locals.measureUnits = Product.schema.obj.measureUnit.enum;
 app.locals.inputifyDate = function (date) {
     const [day, month, year] = date.split("/");
@@ -47,7 +53,7 @@ app.get("/products", async (req, res) => {
     if (category) {
         products.filter((product) => product.category.name === category);
     }
-    res.render("products/index", { products });
+    res.render("products/index", { products, category });
 });
 
 app.get("/products/new", async (req, res) => {

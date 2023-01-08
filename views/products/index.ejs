@@ -1,5 +1,8 @@
 <% layout("layouts/boilerplate") %>
 <h1 class="text-primary text-center">Products List</h1>
+<% if (category) {%>
+<h2 class="text-primary text-center capitalize"><%= category %></h2>
+<% } %>
 <div class="d-flex justify-content-evenly flex-wrap mt-5">
     <% for (let product of products) {%>
     <div class="card bg-info text-secondary mb-3 productIndexCard" data-path="<%= product.path %> ">
