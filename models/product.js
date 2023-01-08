@@ -4,9 +4,7 @@ const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
     title: String,
-    category: {
-        type: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
-    },
+    category: { type: Schema.Types.ObjectId, ref: "Category" },
     measureUnit: {
         type: String,
         enum: ["kg", "liter", "unit"],
@@ -14,7 +12,7 @@ const ProductSchema = new Schema({
     },
     trackUsagePeriod: Boolean,
     purchases: {
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Purchase" }],
+        type: [{ type: Schema.Types.ObjectId, ref: "Purchase" }],
     },
 });
 

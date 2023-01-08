@@ -6,6 +6,7 @@ const { Purchase } = require("./models/purchase");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const { UTCizeDate, calcDaysDifference, stringifyDate } = require("./customModules/helpers");
+const { Category } = require("./models/category");
 
 mongoose.set("strictQuery", true);
 mongoose.connect("mongodb://localhost:27017/groceries-app");
@@ -41,7 +42,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/products", async (req, res) => {
-    const products = await Product.find().sort({ title: 1 });
+    const products = await Product.find().populate("category").sort({ title: 1 });
     res.render("products/index", { products });
 });
 

@@ -12,7 +12,7 @@ const PurchaseSchema = new Schema({
     price: Number,
     startConsDate: String,
     endConsDate: String,
-    productID: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+    productID: { type: Schema.Types.ObjectId, ref: "Product" },
 });
 
 PurchaseSchema.virtual("daysUsed").get(function () {

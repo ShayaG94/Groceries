@@ -31,7 +31,6 @@ const seedDB = async () => {
         } else {
             category = await Category.findOne({ name: product.category.toLowerCase() });
         }
-
         product.category = category._id;
         const newProd = new Product(product);
         category.products.push(newProd._id);
@@ -45,7 +44,7 @@ const seedDB = async () => {
             await newPurchase.save();
         }
 
-        await Product.updateOne({ _id: newProd._id }, { purchases: purchaseIDs });
+        await Product.updateOne({ _id: newProd._id }, { purchases: purchaseIDs, category: category._id });
     }
 };
 
