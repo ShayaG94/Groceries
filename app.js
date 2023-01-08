@@ -42,7 +42,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/products", async (req, res) => {
+    const { category } = req.query;
     const products = await Product.find().populate("category").sort({ title: 1 });
+    if (category) {
+        products.filter((product) => product.category.name === category);
+    }
     res.render("products/index", { products });
 });
 

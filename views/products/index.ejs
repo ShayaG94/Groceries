@@ -2,15 +2,16 @@
 <h1 class="text-primary text-center">Products List</h1>
 <div class="d-flex justify-content-evenly flex-wrap mt-5">
     <% for (let product of products) {%>
-    <div class="card bg-info text-secondary mb-3">
+    <div class="card bg-info text-secondary mb-3 productIndexCard" data-path="<%= product.path %> ">
         <div class="card-header bg-primary">
             <h5 class="card-title"><%= product.title %></h5>
-            <h6 class="card-subtitle text-light capitalize"><%=product.category.name%></h6>
         </div>
-        <div class="card-body productIndexCard" onclick="window.location = 'products/<%= product.path %>' ">
-            <% if (product.purchases.length > 0) { %>
-            <p class="card-text">Purchases: <%= product.purchases.length %></p>
-            <% } %>
+        <div class="card-body">
+            <h6>
+                <a class="link-light card-subtitle capitalize" href="/products?category=<%= product.category.name %> ">
+                    <%=product.category.name%>
+                </a>
+            </h6>
         </div>
     </div>
     <% } %>
