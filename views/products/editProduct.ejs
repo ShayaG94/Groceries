@@ -23,7 +23,7 @@
             <select name="product[category]" id="category" class="form-select bg-light form-control capitalize" required>
                 <option value="">Select Category:</option>
                 <% for (let category of categories) { %>
-                <option <%= category.name === product.category.name ? "selected" : "" %> value="<%= category.name %>"><%= category.name %></option>
+                <option <%= category === product.category.name ? "selected" : "" %> value="<%= category %>"><%= category %></option>
                 <% } %>
             </select>
         </div>

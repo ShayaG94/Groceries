@@ -57,8 +57,7 @@ app.get("/products", async (req, res) => {
 });
 
 app.get("/products/new", async (req, res) => {
-    const categories = await Category.find();
-    res.render("products/newProduct", { categories });
+    res.render("products/newProduct");
 });
 
 app.post("/products", async (req, res) => {
@@ -90,8 +89,7 @@ app.get("/products/:id-:name", async (req, res) => {
 
 app.get("/products/:id-:name/edit", async (req, res) => {
     const product = await Product.findById(req.params.id).populate("category");
-    const categories = await Category.find();
-    res.render("products/editProduct", { product, categories });
+    res.render("products/editProduct", { product });
 });
 
 app.put("/products/:id-:name", async (req, res) => {
