@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Groceries</a>
+        <a class="navbar-brand text-secondary" href="/">Groceries</a>
         <button
             class="navbar-toggler ms-auto"
             type="button"
@@ -22,9 +22,9 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Categories </a>
-                    <ul class="dropdown-menu bg-primary text-light">
+                    <ul class="dropdown-menu bg-primary text-light border border-0">
                         <% for (let category of categories) {%>
-                        <li><a class="dropdown-item capitalize nav-link" href="#"><%= category %> </a></li>
+                        <li><a class="dropdown-item capitalize nav-link" href="/products?category=<%= category %> "><%= category %> </a></li>
                         <% } %>
                     </ul>
                 </li>

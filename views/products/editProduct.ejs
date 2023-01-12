@@ -20,12 +20,26 @@
         </div>
         <div class="mb-3">
             <label for="category" class="form-label">Category:</label>
-            <select name="product[category]" id="category" class="form-select bg-light form-control capitalize" required>
-                <option value="">Select Category:</option>
-                <% for (let category of categories) { %>
-                <option <%= category === product.category.name ? "selected" : "" %> value="<%= category %>"><%= category %></option>
-                <% } %>
-            </select>
+            <div class="d-flex align-items-center">
+                <select name="product[category]" id="category" class="form-select bg-light form-control capitalize me-3" required>
+                    <option value="">Select Category:</option>
+                    <% for (let category of categories) { %>
+                    <option <%= category === product.category.name ? "selected" : "" %> value="<%= category %>">
+                        <%= category %>
+                    </option>
+                    <% } %>
+                </select>
+                <button
+                        type="button"
+                        class="btn-close btn-add text-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#categoryModal"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="right"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-title="Add a Category"
+                    ></button>
+            </div>
         </div>
         <div class="form-check mb-3">
             <input <%= product.trackUsagePeriod ? "checked" : "" %> class="form-check-input" type="checkbox" value="true" name="product[trackUsagePeriod]" id="flexCheckDefault" />
@@ -33,4 +47,26 @@
         </div>
         <button class="btn btn-info align-self-center" type="submit">Update Product</button>
     </form>
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <form onsubmit="addCat(); return false">
+                <div class="modal-content bg-secondary text-primary border-info">
+                    <div class="modal-header border border-0">
+                        <h1 class="modal-title fs-5" id="categoryModalLabel">Add New Category</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body py-0">
+                        <div class="mb-3 form-floating">
+                            <input type="text" class="form-control bg-light" id="categoryNew" name="category[name]" placeholder="Category" required />
+                            <label for="title" class="form-label">Category</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer border border-0 pt-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-info" data-bs-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

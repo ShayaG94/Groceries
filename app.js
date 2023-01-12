@@ -43,16 +43,29 @@ app.locals.inputifyDate = function (date) {
     return `${year}-${month}-${day}`;
 };
 
+async function handleCategory(category) {
+    let handledCategory = undefined;
+    if (!app.locals.categories.includes(category.toLowerCase())) {
+        handledCategory = new Category({ name: category });
+        await handledCategory.save();
+    } else {
+        handledCategory = await Category.findOne({ name: category });
+    }
+    return handledCategory;
+}
+
 app.get("/", (req, res) => {
     res.render("home");
 });
 
 app.get("/products", async (req, res) => {
     const { category } = req.query;
-    const products = await Product.find().populate("category").sort({ title: 1 });
+    const filter = {};
     if (category) {
-        products.filter((product) => product.category.name === category);
+        const cat = await Category.findOne({ name: category });
+        filter.category = cat._id;
     }
+    const products = await Product.find(filter).populate("category").sort({ title: 1 });
     res.render("products/index", { products, category });
 });
 
@@ -63,27 +76,33 @@ app.get("/products/new", async (req, res) => {
 app.post("/products", async (req, res) => {
     const data = req.body.product;
     data.trackUsagePeriod === "true" ? (data.trackUsagePeriod = true) : (data.trackUsagePeriod = false);
+    const category = await handleCategory(data.category);
+    data.category = category._id;
     const product = new Product(data);
+    category.products.push(product._id);
     await product.save();
+    await category.save();
     res.redirect(`/products/${product.path}`);
 });
 
 app.get("/products/:id-:name", async (req, res) => {
     const product = await Product.findById(req.params.id);
-    await product.populate("purchases");
-    product.totalBought = product.purchases.reduce((acc, purchase) => acc + purchase.quantity, 0).toFixed(3);
-    product.totalSpent = product.purchases.reduce((acc, purchase) => acc + purchase.price, 0).toFixed(2);
-    product.averagePrice = (product.totalSpent / product.totalBought).toFixed(2);
-    product.totalConsumptionDays = product.purchases.reduce((acc, purchase) => acc + purchase.daysUsed, 0);
-    product.averageMonthlyCost = (
-        (product.totalSpent /
-            (calcDaysDifference(
-                UTCizeDate(product.purchases[0].purchaseDate),
-                UTCizeDate(product.trackUsagePeriod ? product.purchases[product.purchases.length - 1].purchaseDate : "28/11/2020")
-            ) +
-                1)) *
-        (365 / 12)
-    ).toFixed(2);
+    if (product.purchases.length > 0) {
+        await product.populate("purchases");
+        product.totalBought = product.purchases.reduce((acc, purchase) => acc + purchase.quantity, 0).toFixed(3);
+        product.totalSpent = product.purchases.reduce((acc, purchase) => acc + purchase.price, 0).toFixed(2);
+        product.averagePrice = (product.totalSpent / product.totalBought).toFixed(2);
+        product.totalConsumptionDays = product.purchases.reduce((acc, purchase) => acc + purchase.daysUsed, 0);
+        product.averageMonthlyCost = (
+            (product.totalSpent /
+                (calcDaysDifference(
+                    UTCizeDate(product.purchases[0].purchaseDate),
+                    UTCizeDate(product.trackUsagePeriod ? product.purchases[product.purchases.length - 1].purchaseDate : "28/11/2020")
+                ) +
+                    1)) *
+            (365 / 12)
+        ).toFixed(2);
+    }
     res.render("products/show", { product });
 });
 
@@ -95,12 +114,23 @@ app.get("/products/:id-:name/edit", async (req, res) => {
 app.put("/products/:id-:name", async (req, res) => {
     const data = req.body.product;
     data.trackUsagePeriod === "true" ? (data.trackUsagePeriod = true) : (data.trackUsagePeriod = false);
-    const product = await Product.findByIdAndUpdate(req.params.id, { ...data }, { new: true });
+    const category = await handleCategory(data.category);
+    console.log(category);
+    data.category = category._id;
+    const product = await Product.findByIdAndUpdate(req.params.id, { ...data });
+    const oldCategoryID = product.category;
+    if (oldCategoryID !== category._id) {
+        await Category.updateOne({ _id: product.category }, { $pull: { products: product._id } });
+        category.products.push(product._id);
+        await category.save();
+    }
+    await product.save();
     res.redirect(`/products/${product.path}`);
 });
 
 app.delete("/products/:id-:name", async (req, res) => {
-    await Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findByIdAndDelete(req.params.id);
+    await Category.updateOne({ _id: product.category }, { $pull: { products: product._id } });
     res.redirect("/products");
 });
 
