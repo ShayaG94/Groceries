@@ -132,3 +132,7 @@ input[type="date"] {
     --bs-tooltip-bg: rgba(48,88,110,255)!important;
     --bs-tooltip-color: rgba(231,201,132,255)!important;
 }
+
+.modal-dialog-centered {
+    justify-content: center;
+}
