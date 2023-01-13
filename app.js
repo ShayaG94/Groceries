@@ -66,7 +66,7 @@ app.get("/products", async (req, res) => {
         filter.category = cat._id;
     }
     const products = await Product.find(filter).populate("category").sort({ title: 1 });
-    res.render("products/index", { products, category });
+    res.render("products/productList", { products, category });
 });
 
 app.get("/products/new", async (req, res) => {
@@ -103,7 +103,7 @@ app.get("/products/:id-:name", async (req, res) => {
             (365 / 12)
         ).toFixed(2);
     }
-    res.render("products/show", { product });
+    res.render("products/productStats", { product });
 });
 
 app.get("/products/:id-:name/edit", async (req, res) => {
@@ -137,7 +137,7 @@ app.delete("/products/:id-:name", async (req, res) => {
 app.get("/products/:id-:name/purchases", async (req, res) => {
     const product = await Product.findById(req.params.id);
     await product.populate("purchases");
-    res.render("products/purchases", { product });
+    res.render("products/productPurchases", { product });
 });
 
 app.get("/products/:id-:name/purchases/new", async (req, res) => {
