@@ -115,6 +115,11 @@
     border: 2px solid var(--blue-dark)!important;
 }
 
+header.position-sticky{
+    top: 60px;
+    z-index: 1020;
+}
+
 img.navbar-brand {
     max-height: 100%;
 }
@@ -195,7 +200,16 @@ input[type="date"] {
     width: 60%!important;
 }
 
+.nav {
+    --bs-nav-link-color: var(--blue-dark);
+    --bs-nav-link-hover-color: var(--blue-light-hover);
+    --bs-nav-link-disabled-color: var(--blue-light-disbaled);  
+}
 
-
-
-
+.nav-tabs {
+    --bs-nav-tabs-border-color: var(--blue-light);
+    --bs-nav-tabs-link-hover-border-color: var(--blue-light-hover);
+    --bs-nav-tabs-link-active-color: var(--blue-light-active);
+    --bs-nav-tabs-link-active-bg: var(--gold-light);
+    --bs-nav-tabs-link-active-border-color: var(--blue-light) var(--blue-light) var(--gold-light);
+}

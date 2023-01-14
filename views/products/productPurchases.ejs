@@ -1,10 +1,3 @@
-<% layout("layouts/boilerplate") %>
-<h1 class="text-primary text-center mb-3"><%= product.title %></h1>
-<h2 class="text-primary text-center mb-3">Product Purchases</h2>
-<div class="col-8 offset-2 d-flex flex-wrap justify-content-around mb-3">
-    <a href="/products/<%= product.path %> " class="btn btn-info mb-2 mb-md-0">Back to Product</a>
-    <a href="/products/<%= product.path %>/purchases/new" class="btn btn-info">Add Purchase</a>
-</div>
 <% if (product.purchases.length > 0) {%>
 <div class="col-10 offset-1 d-flex justify-content-around flex-wrap mt-4">
     <% for (let purchase of product.purchases) {%>

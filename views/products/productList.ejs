@@ -7,11 +7,11 @@
 </header>
 <div class="d-flex flex-column col-lg-8 offset-lg-2">
     <% for (let product of products) {%>
-    <div class="d-flex bg-secondary rounded ps-3 pe-2 pe-md-3 py-2 py-md-3 align-items-center mb-2 productIndexCard" data-path="<%= product.path %>">
+    <div class="d-flex bg-secondary rounded ps-3 pe-2 pe-md-3 py-2 py-md-3 align-items-center mb-2 productIndexCard">
         <h5 class="m-0"><%= product.title %></h5>
         <div class="d-flex ms-auto" role="group">
-            <a href="/products/<%= product.path %> " class="btn btn-info me-1 me-md-2 px-2 px-md-3">Stats</a>
-            <a href="/products/<%= product.path %>/purchases" class="btn btn-info px-2 px-md-3">Purchases</a>
+            <a href="/products/<%= product.path %>?tab=stats" id="stats" class="btn btn-info me-1 me-md-2 px-2 px-md-3">Stats</a>
+            <a href="/products/<%= product.path %>?tab=purchases" id="purchases" class="btn btn-info px-2 px-md-3">Purchases</a>
         </div>
     </div>
     <% } %>

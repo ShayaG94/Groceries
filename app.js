@@ -106,10 +106,14 @@ app.get("/products/:id-:name", async (req, res) => {
         product.stats.totalSpent = currecizePrice(product.stats.totalSpent);
         product.stats.averagePrice = `${currecizePrice(product.stats.averagePrice)} / ${getMeasureUnit(product)}`;
         product.stats.totalConsumptionDays = `${product.stats.totalConsumptionDays} days`;
-        product.stats.monthlyConsumptionCost = currecizePrice(product.stats.monthlyConsumptionCost);
         product.stats.averageMonthlyCost = currecizePrice(product.stats.averageMonthlyCost);
+        if (product.trackUsagePeriod) {
+            product.stats.monthlyConsumptionCost = currecizePrice(product.stats.monthlyConsumptionCost);
+        } else {
+            delete product.stats.monthlyConsumptionCost;
+        }
     }
-    res.render("products/productStats", { product });
+    res.render("products/showProduct", { product });
 });
 
 app.get("/products/:id-:name/edit", async (req, res) => {
