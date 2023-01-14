@@ -50,7 +50,11 @@ app.locals.inputifyDate = function (date) {
     const [day, month, year] = date.split("/");
     return `${year}-${month}-${day}`;
 };
-
+app.locals.titlizeString = function (text) {
+    const result = text.replace(/([A-Z])/g, " $1");
+    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+    return finalResult;
+};
 async function handleCategory(category) {
     let handledCategory = undefined;
     if (!app.locals.categories.includes(category.toLowerCase())) {
@@ -97,24 +101,10 @@ app.get("/products/:id-:name", async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (product.purchases.length > 0) {
         await product.populate("purchases");
-        product.totalBought = product.purchases.reduce((acc, purchase) => acc + purchase.quantity, 0).toFixed(3);
-        product.totalSpent = product.purchases.reduce((acc, purchase) => acc + purchase.price, 0).toFixed(2);
-        product.averagePrice = (product.totalSpent / product.totalBought).toFixed(2);
-        product.totalConsumptionDays = product.purchases.reduce((acc, purchase) => acc + purchase.daysUsed, 0);
-        product.averageMonthlyCost = (
-            (product.totalSpent /
-                (calcDaysDifference(
-                    UTCizeDate(product.purchases[0].purchaseDate),
-                    UTCizeDate(product.trackUsagePeriod ? product.purchases[product.purchases.length - 1].purchaseDate : "28/11/2020")
-                ) +
-                    1)) *
-            (365 / 12)
-        ).toFixed(2);
-
         product.stats = { ...getStats(product) };
         product.stats.totalBought = uniticizeProduct(product);
         product.stats.totalSpent = currecizePrice(product.stats.totalSpent);
-        product.stats.averagePrice = currecizePrice(product.stats.averagePrice);
+        product.stats.averagePrice = `${currecizePrice(product.stats.averagePrice)} / ${getMeasureUnit(product)}`;
         product.stats.totalConsumptionDays = `${product.stats.totalConsumptionDays} days`;
         product.stats.monthlyConsumptionCost = currecizePrice(product.stats.monthlyConsumptionCost);
         product.stats.averageMonthlyCost = currecizePrice(product.stats.averageMonthlyCost);

@@ -1,40 +1,18 @@
 <% layout("layouts/boilerplate") %>
 <h1 class="text-primary text-center mb-2"><%= product.title %></h1>
 <h2 class="text-primary text-center mb-3">Stats</h2>
-<div class="d-flex flex-column align-items-stretch">
-    <% if (product.purchases.length > 0) {%>
-    <div class="col-6 offset-3 d-flex flex-row justify-content-around flex-wrap color-primary">
-        <div class="card bg-light mb-3 mx-1">
-            <div class="card-header bg-secondary">Total Bought</div>
-            <div class="card-text text-center"><%= product.totalBought %> <%= product.measureUnit %><%= product.totalBought > 1 ? "s" : "" %></div>
-        </div>
-        <div class="card bg-light mb-3 mx-1">
-            <div class="card-header bg-secondary">Total spent</div>
-            <div class="card-text text-center">&#8362; <%= product.totalSpent %></div>
-        </div>
-        <div class="card bg-light mb-3 mx-1">
-            <div class="card-header bg-secondary">Averge Price</div>
-            <div class="card-text text-center">&#8362; <%= product.averagePrice %> / <%= product.measureUnit %></div>
-        </div>
-    </div>
-    <div class="col-8 offset-2 d-flex flex-row justify-content-around flex-wrap color-primary">
-        <% if (product.trackUsagePeriod) {%>
-        <div class="card bg-light mb-3 mx-1">
-            <div class="card-header bg-secondary">Total Consumption Days</div>
-            <div class="card-text text-center"><%= product.totalConsumptionDays %> days</div>
-        </div>
-        <div class="card bg-light mb-3 mx-1">
-            <div class="card-header bg-secondary">Monthly Consumption Cost</div>
-            <div class="card-text text-center">&#8362; <%= ((product.totalSpent / product.totalConsumptionDays)*(365/12)).toFixed(2) %></div>
+
+<div class="container text-center">
+    <div class="row g-3">
+        <% for (const data in product.stats) {%>
+        <div class="col-6">
+            <div class="p-3 rounded bg-secondary text-primary"><%= titlizeString(data) %>: <%= product.stats[data] %></div>
         </div>
         <% } %>
-        <div class="card bg-light mb-3 mx-1">
-            <div class="card-header bg-secondary">Monthly (calendar) Cost</div>
-            <div class="card-text text-center">&#8362; <%= product.averageMonthlyCost %></div>
-        </div>
     </div>
-    <% } %>
 </div>
+<div class="d-flex g-2"></div>
+
 <div class="col-8 offset-2 d-flex flex-wrap justify-content-around mb-3 mt-auto">
     <a href="/products/<%= product.path %>/purchases" class="btn btn-info mb-2 mb-md-0">View Purchases</a>
     <a href="/products/<%= product.path %>/edit" class="btn btn-info">Edit Product</a>
