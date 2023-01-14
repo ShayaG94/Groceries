@@ -15,4 +15,51 @@ function stringifyDate(date) {
     } else return "";
 }
 
-module.exports = { UTCizeDate, calcDaysDifference, stringifyDate };
+function getMeasureUnit(product) {
+    if (product.measureUnit === "kg") {
+        return product.measureUnit.toUpperCase();
+    } else {
+        return product.measureUnit[0].toUpperCase() + product.measureUnit.slice(1);
+    }
+}
+
+function currecizePrice(price) {
+    return `₪${price.toFixed(2)}`;
+}
+
+function uniticizeProduct(product) {
+    return `${product.stats.totalBought.toFixed(3)} ${getMeasureUnit(product)}${product.stats.totalBought > 1 ? "s" : ""}`;
+}
+
+function getTotalBought(product) {
+    return product.purchases.reduce((acc, purchase) => acc + purchase.quantity, 0);
+}
+
+function getTotalSpent(product) {
+    return product.purchases.reduce((acc, purchase) => acc + purchase.price, 0);
+}
+
+function getTotalConsumptionDays(product) {
+    return product.purchases.reduce((acc, purchase) => acc + purchase.daysUsed, 0);
+}
+
+function getTotalUsageDays(product) {
+    return (
+        calcDaysDifference(
+            UTCizeDate(product.purchases[0].purchaseDate),
+            UTCizeDate(product.trackUsagePeriod ? product.purchases[product.purchases.length - 1].purchaseDate : "28/11/2020")
+        ) + 1
+    );
+}
+
+function getStats(product) {
+    const totalBought = getTotalBought(product);
+    const totalSpent = getTotalSpent(product);
+    const averagePrice = totalSpent / totalBought;
+    const totalConsumptionDays = getTotalConsumptionDays(product);
+    const averageMonthlyCost = (totalSpent / getTotalUsageDays(product)) * (365 / 12);
+    const monthlyConsumptionCost = (totalSpent / totalConsumptionDays) * (365 / 12);
+    return { totalBought, totalSpent, averagePrice, totalConsumptionDays, monthlyConsumptionCost, averageMonthlyCost };
+}
+
+module.exports = { UTCizeDate, calcDaysDifference, stringifyDate, getStats, getMeasureUnit, currecizePrice, uniticizeProduct };

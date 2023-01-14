@@ -20,6 +20,11 @@ ProductSchema.virtual("path").get(function () {
     return `${this._id}-${this.title.replaceAll(",", "").replaceAll(" ", "_")}`;
 });
 
+ProductSchema.virtual("populizedCategory").get(async function () {
+    await this.populate("category");
+    return this.category.name;
+});
+
 const Product = mongoose.model("Product", ProductSchema);
 
 module.exports = { Product };

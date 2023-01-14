@@ -5,7 +5,15 @@ const { Product } = require("./models/product");
 const { Purchase } = require("./models/purchase");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-const { UTCizeDate, calcDaysDifference, stringifyDate } = require("./customModules/helpers");
+const {
+    UTCizeDate,
+    calcDaysDifference,
+    stringifyDate,
+    getStats,
+    getMeasureUnit,
+    currecizePrice,
+    uniticizeProduct,
+} = require("./customModules/helpers");
 const { Category } = require("./models/category");
 
 mongoose.set("strictQuery", true);
@@ -102,6 +110,14 @@ app.get("/products/:id-:name", async (req, res) => {
                     1)) *
             (365 / 12)
         ).toFixed(2);
+
+        product.stats = { ...getStats(product) };
+        product.stats.totalBought = uniticizeProduct(product);
+        product.stats.totalSpent = currecizePrice(product.stats.totalSpent);
+        product.stats.averagePrice = currecizePrice(product.stats.averagePrice);
+        product.stats.totalConsumptionDays = `${product.stats.totalConsumptionDays} days`;
+        product.stats.monthlyConsumptionCost = currecizePrice(product.stats.monthlyConsumptionCost);
+        product.stats.averageMonthlyCost = currecizePrice(product.stats.averageMonthlyCost);
     }
     res.render("products/productStats", { product });
 });
