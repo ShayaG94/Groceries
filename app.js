@@ -113,6 +113,7 @@ app.get("/products/:id-:name", async (req, res) => {
             delete product.stats.monthlyConsumptionCost;
         }
     }
+    console.log(product.purchases[0].daysUsed);
     res.render("products/showProduct", { product });
 });
 

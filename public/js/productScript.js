@@ -18,10 +18,3 @@ if (queriesIndex > 0) {
     document.querySelector("#stats-tab-pane").classList.add("active");
     document.querySelector("#stats-tab-pane").classList.add("show");
 }
-
-const tabButtons = document.querySelectorAll("[role=tab]");
-tabButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-        console.log(e.target.style);
-    });
-});
