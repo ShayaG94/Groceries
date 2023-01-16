@@ -6,6 +6,8 @@
     --blue-light-active: rgb(62,114,143);
     --blue-light-focus: rgb(70,128,160);
     --gold-dark: rgb(209,150,59);
+    --gold-dark-hover: rgb(230,165,65);
+    --gold-dark-active: rgb(251,180,71);
     --gold-light: rgb(231,201,132);
     --gold-light-disabled: rgba(231,201,132,175);
     --gold-light-hover: rgb(196,171,112);
@@ -56,6 +58,19 @@
     transform: rotateY(0deg) rotate(45deg);
 }
 
+
+.btn-secondary {
+    --bs-btn-color: var(--blue-dark);
+    --bs-btn-bg: var(--gold-dark);
+    --bs-btn-border-color: var(--gold-dark);
+    --bs-btn-hover-color: var(--blue-dark);
+    --bs-btn-hover-bg: var(--gold-dark-hover);
+    --bs-btn-hover-border-color: var(--gold-dark-hover);
+    --bs-btn-focus-shadow-rgb: var(--gold-dark);
+    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-bg: var(--gold-dark-active);
+    --bs-btn-active-border-color: var(--gold-dark-active);
+}
 
 .btn-info {
     --bs-btn-color: var(--gold-light);
