@@ -72,11 +72,11 @@ app.get("/products", async (req, res) => {
         filter.category = cat._id;
     }
     const products = await Product.find(filter).populate("category").sort({ title: 1 });
-    res.render("products/productList", { products, category });
+    res.render("products/index", { products, category });
 });
 
 app.get("/products/new", async (req, res) => {
-    res.render("products/newProduct");
+    res.render("products/new");
 });
 
 app.post("/products", async (req, res) => {
@@ -97,12 +97,12 @@ app.get("/products/:id-:name", async (req, res) => {
         await product.populate("purchases");
         product.stats = { ...getPrettyStats(product) };
     }
-    res.render("products/showProduct", { product });
+    res.render("products/show", { product });
 });
 
 app.get("/products/:id-:name/edit", async (req, res) => {
     const product = await Product.findById(req.params.id).populate("category");
-    res.render("products/editProduct", { product });
+    res.render("products/edit", { product });
 });
 
 app.put("/products/:id-:name", async (req, res) => {
@@ -127,12 +127,6 @@ app.delete("/products/:id-:name", async (req, res) => {
     res.redirect("/products");
 });
 
-app.get("/products/:id-:name/purchases", async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    await product.populate("purchases");
-    res.render("products/productPurchases", { product });
-});
-
 app.get("/products/:id-:name/purchases/new", async (req, res) => {
     const product = await Product.findById(req.params.id);
     res.render("products/newPurchase", { product });
@@ -150,7 +144,7 @@ app.post("/products/:id-:name/purchases", async (req, res) => {
     product.purchases.push(purchase._id);
     await purchase.save();
     await product.save();
-    res.redirect(`/products/${product.path}/ypurchases`);
+    res.redirect(`/products/${product.path}/?tab=purchases`);
 });
 
 app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
