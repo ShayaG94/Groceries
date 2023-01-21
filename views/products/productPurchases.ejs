@@ -6,34 +6,46 @@
             <div class="d-flex"><%= purchase.store.name %> <%- purchase.store.branch? ` - ${purchase.store.branch}` : ""%></div>
         </div>
 
-        <a href="#" class="btn btn-secondary ms-auto fw-bold fs-3 py-0">&#8942;</a>
+        <button
+            class="btn btn-secondary ms-auto fw-bold fs-3 py-0"
+            data-bs-toggle="modal"
+            data-bs-target="#detailsModal"
+            data-bs-toggle="tooltip"
+            data-bs-placement="right"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-title="Purchase details"
+        >
+            &#8942;
+        </button>
     </div>
-    <% } %>
-</div>
 
-<div class="col-10 offset-1 d-flex justify-content-around flex-wrap mt-4">
-    <% for (let purchase of product.purchases) {%>
-    <div class="card bg-info text-secondary mb-4">
-        <div class="card-header bg-primary">
-            <h5 class="card-title"><%= purchase.store.name %><small><%- purchase.store.branch? ` - ${purchase.store.branch}` : ""%> </small></h5>
-            <h6 class="card-subtitle text-light">Purchase Date: <%=purchase.purchaseDate%></h6>
-        </div>
-        <div class="card-body">
-            <p class="card-text">Price: &#8362; <%= purchase.price.toFixed(2) %></p>
-            <p class="card-text">
-                Amount: <%= product.measureUnit === "unit" ? purchase.quantity : purchase.quantity.toFixed(3)%> <%= product.measureUnit %><%=
-                purchase.quantity > 1 ? "s" : "" %>
-            </p>
-            <% if (product.trackUsagePeriod) {%>
-            <p class="card-text">Days Used: <%= purchase.daysUsed %></p>
-            <p class="card-text">Monthly Cost: &#8362; <%= ((purchase.price / purchase.daysUsed) * (365/12)).toFixed(2) %></p>
-            <% } %>
-        </div>
-        <div class="card-footer bg-primary d-flex justify-content-between">
-            <a href="/products/<%= product.path %> /purchases/<%= purchase._id %>/edit" class="btn btn-info">Edit Purchase</a>
-            <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-info">Delete</button>
-            </form>
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content bg-secondary text-primary border-info">
+                <div class="modal-header border border-0">
+                    <h1 class="modal-title fs-5" id="categoryModalLabel">Purchase Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-0">
+                    <p>
+                        Amount: <%= product.measureUnit === "unit" ? purchase.quantity : purchase.quantity.toFixed(3)%> <%= product.measureUnit %><%=
+                        purchase.quantity > 1 ? "s" : "" %>
+                    </p>
+                    <p>Price: &#8362; <%= purchase.price.toFixed(2) %></p>
+                    <% if (product.trackUsagePeriod) {%>
+                    <p>Days Used: <%= purchase.daysUsed %></p>
+                    <p>Monthly Cost: &#8362; <%= ((purchase.price / purchase.daysUsed) * (365/12)).toFixed(2) %></p>
+                    <% } %>
+                </div>
+                <div class="modal-footer border border-0 pt-0">
+                    <button id="closeDetailsModal" type="button" class="btn btn-light" data-bs-dismiss="modal" hidden>Close</button>
+                    <a href="/products/<%= product.path %> /purchases/<%= purchase._id %>/edit" class="btn btn-light">Edit</a>
+                    <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-info">Delete</button>
+                    </form>
+                    <button id="saveInfo" type="submit" class="btn btn-info disabled" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
         </div>
     </div>
     <% } %>
