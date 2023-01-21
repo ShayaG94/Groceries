@@ -5,15 +5,7 @@ const { Product } = require("./models/product");
 const { Purchase } = require("./models/purchase");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-const {
-    UTCizeDate,
-    calcDaysDifference,
-    stringifyDate,
-    getStats,
-    getMeasureUnit,
-    currecizePrice,
-    uniticizeProduct,
-} = require("./customModules/helpers");
+const { stringifyDate, getPrettyStats } = require("./customModules/helpers");
 const { Category } = require("./models/category");
 
 mongoose.set("strictQuery", true);
@@ -103,17 +95,7 @@ app.get("/products/:id-:name", async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (product.purchases.length > 0) {
         await product.populate("purchases");
-        product.stats = { ...getStats(product) };
-        product.stats.totalBought = uniticizeProduct(product);
-        product.stats.totalSpent = currecizePrice(product.stats.totalSpent);
-        product.stats.averagePrice = `${currecizePrice(product.stats.averagePrice)} / ${getMeasureUnit(product)}`;
-        product.stats.totalConsumptionDays = `${product.stats.totalConsumptionDays} days`;
-        product.stats.averageMonthlyCost = currecizePrice(product.stats.averageMonthlyCost);
-        if (product.trackUsagePeriod) {
-            product.stats.monthlyConsumptionCost = currecizePrice(product.stats.monthlyConsumptionCost);
-        } else {
-            delete product.stats.monthlyConsumptionCost;
-        }
+        product.stats = { ...getPrettyStats(product) };
     }
     res.render("products/showProduct", { product });
 });
