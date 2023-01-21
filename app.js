@@ -48,6 +48,8 @@ app.use("/", async (req, res, next) => {
 app.locals.measureUnits = Product.schema.obj.measureUnit.enum;
 app.locals.inputifyDate = function (date) {
     const [day, month, year] = date.split("/");
+    if (month < 10) month = 0 + month;
+    if (day < 10) day = 0 + day;
     return `${year}-${month}-${day}`;
 };
 app.locals.titlizeString = function (text) {
@@ -168,7 +170,7 @@ app.post("/products/:id-:name/purchases", async (req, res) => {
     product.purchases.push(purchase._id);
     await purchase.save();
     await product.save();
-    res.redirect(`/products/${product.path}/purchases`);
+    res.redirect(`/products/${product.path}/ypurchases`);
 });
 
 app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
@@ -180,15 +182,21 @@ app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
 app.put("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
     const data = req.body.purchase;
     data.purchaseDate = stringifyDate(data.purchaseDate);
+    if (!!data.startConsDate) {
+        data.startConsDate = stringifyDate(data.startConsDate);
+    }
+    if (!!data.endConsDate) {
+        data.endConsDate = stringifyDate(data.endConsDate);
+    }
     await Purchase.findByIdAndUpdate(req.params.purchaseId, data, { new: true });
     const productPath = `${req.params.id}-${req.params.name}`;
-    res.redirect(`/products/${productPath}/purchases`);
+    res.redirect(`/products/${productPath}?tab=purchases`);
 });
 
 app.delete("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
     await Purchase.findByIdAndDelete(req.params.purchaseId);
     const productPath = `${req.params.id}-${req.params.name}`;
-    res.redirect(`/products/${productPath}/purchases`);
+    res.redirect(`/products/${productPath}/?tab=purchases`);
 });
 
 app.listen(3000, () => {

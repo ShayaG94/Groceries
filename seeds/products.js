@@ -165,10 +165,10 @@ module.exports.products = [
                     name: "Shufersal Deal",
                     branch: "Ma'ale Adumim",
                 },
-                purchaseDate: "6/11/2019",
+                purchaseDate: "06/11/2019",
                 quantity: 4,
                 price: 6.44,
-                startConsDate: "8/11/2019",
+                startConsDate: "08/11/2019",
                 endConsDate: "26/11/2019",
             },
             {
