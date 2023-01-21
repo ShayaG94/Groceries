@@ -20,7 +20,7 @@ mongoose.set("strictQuery", true);
 mongoose.connect("mongodb://localhost:27017/groceries-app");
 
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
+db.on("error", console.error.bind(console, "Database connection error:"));
 db.once("open", () => {
     console.log("Groceries App: Database connected");
 });
@@ -48,8 +48,8 @@ app.use("/", async (req, res, next) => {
 app.locals.measureUnits = Product.schema.obj.measureUnit.enum;
 app.locals.inputifyDate = function (date) {
     const [day, month, year] = date.split("/");
-    if (month < 10) month = 0 + month;
-    if (day < 10) day = 0 + day;
+    if (month.length === 1) month = 0 + month;
+    if (day.length === 1) day = 0 + day;
     return `${year}-${month}-${day}`;
 };
 app.locals.titlizeString = function (text) {
@@ -115,7 +115,6 @@ app.get("/products/:id-:name", async (req, res) => {
             delete product.stats.monthlyConsumptionCost;
         }
     }
-    console.log(product.purchases[0].daysUsed);
     res.render("products/showProduct", { product });
 });
 
@@ -128,7 +127,6 @@ app.put("/products/:id-:name", async (req, res) => {
     const data = req.body.product;
     data.trackUsagePeriod === "true" ? (data.trackUsagePeriod = true) : (data.trackUsagePeriod = false);
     const category = await handleCategory(data.category);
-    console.log(category);
     data.category = category._id;
     const product = await Product.findByIdAndUpdate(req.params.id, { ...data });
     const oldCategoryID = product.category;
