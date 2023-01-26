@@ -5,7 +5,7 @@ const { Product } = require("./models/product");
 const { Purchase } = require("./models/purchase");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-const { stringifyDate, getPrettyStats } = require("./customModules/helpers");
+const { stringifyDate, getPrettyStats, sortByDate, getPurchaseInfo } = require("./customModules/helpers");
 const { Category } = require("./models/category");
 
 mongoose.set("strictQuery", true);
@@ -38,17 +38,20 @@ app.use("/", async (req, res, next) => {
 });
 
 app.locals.measureUnits = Product.schema.obj.measureUnit.enum;
+
 app.locals.inputifyDate = function (date) {
     const [day, month, year] = date.split("/");
     if (month.length === 1) month = 0 + month;
     if (day.length === 1) day = 0 + day;
     return `${year}-${month}-${day}`;
 };
-app.locals.titlizeString = function (text) {
+
+app.locals.titlizeObjectKey = function (text) {
     const result = text.replace(/([A-Z])/g, " $1");
     const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
     return finalResult;
 };
+
 async function handleCategory(category) {
     let handledCategory = undefined;
     if (!app.locals.categories.includes(category.toLowerCase())) {
@@ -96,6 +99,11 @@ app.get("/products/:id-:name", async (req, res) => {
     if (product.purchases.length > 0) {
         await product.populate("purchases");
         product.stats = { ...getPrettyStats(product) };
+        for (const purchase of product.purchases) {
+            purchase.info = { ...getPurchaseInfo(purchase, product) };
+            console.log(purchase.info);
+        }
+        product.purchases.sort((a, b) => sortByDate(a.purchaseDate, b.purchaseDate, -1));
     }
     res.render("products/show", { product });
 });
@@ -129,7 +137,7 @@ app.delete("/products/:id-:name", async (req, res) => {
 
 app.get("/products/:id-:name/purchases/new", async (req, res) => {
     const product = await Product.findById(req.params.id);
-    res.render("products/newPurchase", { product });
+    res.render("purchases/new", { product });
 });
 
 app.post("/products/:id-:name/purchases", async (req, res) => {
@@ -150,7 +158,7 @@ app.post("/products/:id-:name/purchases", async (req, res) => {
 app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
     const product = await Product.findById(req.params.id);
     const purchase = await Purchase.findById(req.params.purchaseId);
-    res.render("products/editPurchase", { product, purchase });
+    res.render("purchases/edit", { product, purchase });
 });
 
 app.put("/products/:id-:name/purchases/:purchaseId", async (req, res) => {

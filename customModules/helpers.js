@@ -3,6 +3,7 @@ function UTCizeDate(date) {
     rawDate = new Date(year, month - 1, day);
     return Date.UTC(rawDate.getFullYear(), rawDate.getMonth(), rawDate.getDate());
 }
+
 function calcDaysDifference(startDate, endDate) {
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;
     return Math.floor((endDate - startDate) / _MS_PER_DAY);
@@ -15,11 +16,11 @@ function stringifyDate(date) {
     } else return "";
 }
 
-function getMeasureUnit(product) {
-    if (product.measureUnit === "kg") {
-        return product.measureUnit.toUpperCase();
+function getMeasureUnit(measureUnit) {
+    if (measureUnit === "kg") {
+        return measureUnit.toUpperCase();
     } else {
-        return product.measureUnit[0].toUpperCase() + product.measureUnit.slice(1);
+        return measureUnit[0].toUpperCase() + measureUnit.slice(1);
     }
 }
 
@@ -27,8 +28,8 @@ function currecizePrice(price) {
     return `₪${price.toFixed(2)}`;
 }
 
-function uniticizeAmount(product, amount) {
-    return `${amount.toFixed(3)} ${getMeasureUnit(product)}${amount > 1 ? "s" : ""}`;
+function uniticizeAmount(amount, measureUnit) {
+    return `${amount.toFixed(3)} ${getMeasureUnit(measureUnit)}${amount > 1 ? "s" : ""}`;
 }
 
 function getTotalBought(product) {
@@ -64,9 +65,9 @@ function getProductStats(product) {
 
 function getPrettyStats(product) {
     const stats = { ...getProductStats(product) };
-    stats.totalBought = uniticizeAmount(product, stats.totalBought);
+    stats.totalBought = uniticizeAmount(stats.totalBought, product.measureUnit);
     stats.totalSpent = currecizePrice(stats.totalSpent);
-    stats.averagePrice = `${currecizePrice(stats.averagePrice)} / ${getMeasureUnit(product)}`;
+    stats.averagePrice = `${currecizePrice(stats.averagePrice)} / ${getMeasureUnit(product.measureUnit)}`;
     stats.totalConsumptionDays = `${stats.totalConsumptionDays} days`;
     stats.averageMonthlyCost = currecizePrice(stats.averageMonthlyCost);
     if (product.trackUsagePeriod) {
@@ -77,4 +78,35 @@ function getPrettyStats(product) {
     return stats;
 }
 
-module.exports = { UTCizeDate, calcDaysDifference, stringifyDate, getPrettyStats, getMeasureUnit, currecizePrice, uniticizeAmount };
+function getPurchaseInfo(purchase, product) {
+    const info = {};
+    info.amount = uniticizeAmount(purchase.quantity, product.measureUnit);
+    info.price = currecizePrice(purchase.price);
+    if (product.trackUsagePeriod) {
+        info.daysUsed = `${purchase.daysUsed} days`;
+        info.monthlyConsumptionCost = currecizePrice((purchase.price / purchase.daysUsed) * (365 / 12));
+    }
+    return info;
+}
+
+function sortByDate(date1, date2, direction) {
+    const keyA = UTCizeDate(date1),
+        keyB = UTCizeDate(date2);
+    // Compare the 2 dates
+
+    if (keyA < keyB) return -direction;
+    if (keyA > keyB) return direction;
+    return 0;
+}
+
+module.exports = {
+    UTCizeDate,
+    calcDaysDifference,
+    stringifyDate,
+    getPrettyStats,
+    getMeasureUnit,
+    currecizePrice,
+    uniticizeAmount,
+    sortByDate,
+    getPurchaseInfo,
+};

@@ -1,0 +1,26 @@
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content bg-secondary text-primary border-info">
+            <div class="modal-header border border-0">
+                <h1 class="modal-title fs-5" id="categoryModalLabel">Purchase Details</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+                <% for (const data in purchase.info) {%>
+                <div class="d-flex flex-row py-2">
+                    <div class="fw-bold me-auto"><%= titlizeObjectKey(data) %></div>
+                    <div><%= purchase.info[data] %></div>
+                </div>
+                <% } %>
+            </div>
+            <div class="modal-footer border border-0 pt-0">
+                <button id="closeDetailsModal" type="button" class="btn btn-light" data-bs-dismiss="modal" hidden>Close</button>
+                <a href="/products/<%= product.path %> /purchases/<%= purchase._id %>/edit" class="btn btn-light">Edit</a>
+                <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-info">Delete</button>
+                </form>
+                <button id="saveInfo" type="submit" class="btn btn-info disabled" data-bs-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

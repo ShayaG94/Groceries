@@ -3,7 +3,7 @@
         <% for (const data in product.stats) {%>
         <div class="col-11 col-md-6 col-lg-5">
             <div class="d-flex flex-row p-3 rounded bg-secondary text-primary">
-                <div class="fw-bold me-auto"><%= titlizeString(data) %></div>
+                <div class="fw-bold me-auto"><%= titlizeObjectKey(data) %></div>
                 <div><%= product.stats[data] %></div>
             </div>
         </div>
