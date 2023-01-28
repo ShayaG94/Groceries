@@ -1,4 +1,4 @@
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateModal<%= purchase._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content bg-secondary text-primary mx-sm-0 mx-5 border-info">
             <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>/dates?_method=PATCH" method="POST">
