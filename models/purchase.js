@@ -16,9 +16,12 @@ const PurchaseSchema = new Schema({
 });
 
 PurchaseSchema.virtual("daysUsed").get(function () {
-    const startDate = UTCizeDate(this.startConsDate ? this.startConsDate : this.purchaseDate);
-    const endDate = UTCizeDate(this.endConsDate ? this.endConsDate : "28/11/2020");
-    return calcDaysDifference(startDate, endDate) + 1;
+    if (!!this.startConsDate && !!this.endConsDate) {
+        const startDate = UTCizeDate(this.startConsDate);
+        const endDate = UTCizeDate(this.endConsDate);
+        return calcDaysDifference(startDate, endDate) + 1;
+    }
+    return undefined;
 });
 
 const Purchase = mongoose.model("Purchase", PurchaseSchema);

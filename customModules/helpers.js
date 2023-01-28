@@ -83,8 +83,12 @@ function getPurchaseInfo(purchase, product) {
     info.amount = uniticizeAmount(purchase.quantity, product.measureUnit);
     info.price = currecizePrice(purchase.price);
     if (product.trackUsagePeriod) {
-        info.daysUsed = `${purchase.daysUsed} days`;
-        info.monthlyConsumptionCost = currecizePrice((purchase.price / purchase.daysUsed) * (365 / 12));
+        if (!!purchase.daysUsed) {
+            info.daysUsed = `${purchase.daysUsed} days`;
+            info.monthlyConsumptionCost = currecizePrice((purchase.price / purchase.daysUsed) * (365 / 12));
+        } else {
+            info.forMoreInfo = "Update Usage \u2193";
+        }
     }
     return info;
 }

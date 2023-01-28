@@ -1,22 +1,12 @@
 <div class="d-flex flex-column justify-content-center">
     <% for (let purchase of product.purchases) {%>
-    <div class="d-flex align-items-center offset-lg-3 col-lg-6 bg-secondary py-2 px-3 text-primary rounded mb-2">
+    <div class="d-flex align-items-center offset-lg-3 col-lg-6 bg-secondary py-2 px-3 text-primary rounded mb-2" id="p<%=purchase._id%>">
         <div class="d-flex flex-column flex-md-row">
             <div class="d-flex fw-bold me-md-2"><%=purchase.purchaseDate%></div>
             <div class="d-flex"><%= purchase.store.name %> <%- purchase.store.branch? ` - ${purchase.store.branch}` : ""%></div>
         </div>
 
-        <button
-            class="btn btn-secondary ms-auto fw-bold fs-3 py-0"
-            data-bs-toggle="modal"
-            data-bs-target="#detailsModal"
-            data-bs-toggle="tooltip"
-            data-bs-placement="right"
-            data-bs-custom-class="custom-tooltip"
-            data-bs-title="Purchase details"
-        >
-            &#8942;
-        </button>
+        <button class="btn btn-secondary ms-auto fw-bold fs-3 py-0" data-bs-toggle="modal" data-bs-target="#detailsModal">&#8942;</button>
     </div>
     <%- include("../purchases/show", {purchase: purchase}) %> <% } %>
 </div>

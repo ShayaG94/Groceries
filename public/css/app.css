@@ -1,5 +1,7 @@
 :root {
     --blue-dark: rgb(13,31,45);
+    --blue-dark-hover: rgb(17,40,59);
+    --blue-dark-active: rgb(21,49,73);
     --blue-light: rgb(48,88,110);
     --blue-light-disbaled: rgba(48,88,110,175);
     --blue-light-hover: rgb(55,101,126);
@@ -59,6 +61,19 @@
 }
 
 
+.btn-primary {
+    --bs-btn-color: var(--gold-dark);
+    --bs-btn-bg: var(--blue-dark);
+    --bs-btn-border-color: var(--blue-dark);
+    --bs-btn-hover-color: var(--gold-dark);
+    --bs-btn-hover-bg: var(--blue-dark-hover);
+    --bs-btn-hover-border-color: var(--blue-dark-hover);
+    --bs-btn-focus-shadow-rgb: var(--blue-dark);
+    --bs-btn-active-color: var(--gold-dark);
+    --bs-btn-active-bg: var(--blue-dark-active);
+    --bs-btn-active-border-color: var(--blue-dark-active);
+}
+
 .btn-secondary {
     --bs-btn-color: var(--blue-dark);
     --bs-btn-bg: var(--gold-dark);
@@ -67,7 +82,7 @@
     --bs-btn-hover-bg: var(--gold-dark-hover);
     --bs-btn-hover-border-color: var(--gold-dark-hover);
     --bs-btn-focus-shadow-rgb: var(--gold-dark);
-    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-color: var(--blue-dark);
     --bs-btn-active-bg: var(--gold-dark-active);
     --bs-btn-active-border-color: var(--gold-dark-active);
 }

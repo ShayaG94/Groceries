@@ -40,10 +40,13 @@ app.use("/", async (req, res, next) => {
 app.locals.measureUnits = Product.schema.obj.measureUnit.enum;
 
 app.locals.inputifyDate = function (date) {
-    const [day, month, year] = date.split("/");
-    if (month.length === 1) month = 0 + month;
-    if (day.length === 1) day = 0 + day;
-    return `${year}-${month}-${day}`;
+    if (!!date) {
+        const [day, month, year] = date.split("/");
+        if (month.length === 1) month = 0 + month;
+        if (day.length === 1) day = 0 + day;
+        return `${year}-${month}-${day}`;
+    }
+    return date;
 };
 
 app.locals.titlizeObjectKey = function (text) {
@@ -101,7 +104,6 @@ app.get("/products/:id-:name", async (req, res) => {
         product.stats = { ...getPrettyStats(product) };
         for (const purchase of product.purchases) {
             purchase.info = { ...getPurchaseInfo(purchase, product) };
-            console.log(purchase.info);
         }
         product.purchases.sort((a, b) => sortByDate(a.purchaseDate, b.purchaseDate, -1));
     }
@@ -153,6 +155,18 @@ app.post("/products/:id-:name/purchases", async (req, res) => {
     await purchase.save();
     await product.save();
     res.redirect(`/products/${product.path}/?tab=purchases`);
+});
+
+app.patch("/products/:id-:name/purchases/:purchaseId/dates", async (req, res) => {
+    const dates = req.body;
+    for (const date in dates) {
+        if (!!dates[date]) {
+            dates[date] = stringifyDate(dates[date]);
+        }
+    }
+    await Purchase.findByIdAndUpdate(req.params.purchaseId, dates);
+    const productPath = `${req.params.id}-${req.params.name}`;
+    res.redirect(`/products/${productPath}/?tab=purchases&purchase=${req.params.purchaseId}`);
 });
 
 app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
