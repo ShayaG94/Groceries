@@ -104,8 +104,6 @@ app.get("/products/:id-:name", async (req, res) => {
         product.stats = { ...getPrettyStats(product) };
         for (const purchase of product.purchases) {
             purchase.info = { ...getPurchaseInfo(purchase, product) };
-            console.log(purchase.purchaseDate);
-            console.log(purchase.info);
         }
         product.purchases.sort((a, b) => sortByDate(a.purchaseDate, b.purchaseDate, -1));
     }

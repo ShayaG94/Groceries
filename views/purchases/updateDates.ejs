@@ -1,11 +1,11 @@
 <div class="modal fade" id="updateModal<%= purchase._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content bg-secondary text-primary mx-sm-0 mx-5 border-info">
+            <div class="modal-header border border-0">
+                <h2 class="modal-title fs-5" id="updateModalLabel">Update Usage Period</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
             <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>/dates?_method=PATCH" method="POST">
-                <div class="modal-header border border-0">
-                    <h2 class="modal-title fs-5" id="updateModalLabel">Update Usage Period</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <div class="modal-body py-0 d-flex flex-column align-items-center">
                     <div class="d-flex flex-column justify-content-center align-items-center mb-3">
                         <label for="startConsDate" class="form-label">Start Usage Date:</label>
@@ -28,11 +28,13 @@
                         />
                     </div>
                 </div>
-                <div class="modal-footer d-flex flex-column align-items-stretch border-0 pt-2">
+                <div class="modal-footer d-flex flex-column align-items-stretch border-0 pt-2 pb-0">
                     <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal">Save</button>
-                    <button onclick="event.preventDefault()" class="btn btn-info" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
+            <div class="modal-footer d-flex flex-column align-items-stretch border-0 pt-0">
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailsModal">Close</button>
+            </div>
         </div>
     </div>
 </div>
