@@ -169,24 +169,13 @@ app.patch("/products/:id-:name/purchases/:purchaseId/dates", async (req, res) =>
     res.redirect(`/products/${productPath}/?tab=purchases&purchase=${req.params.purchaseId}`);
 });
 
-app.get("/products/:id-:name/purchases/:purchaseId/edit", async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    const purchase = await Purchase.findById(req.params.purchaseId);
-    res.render("purchases/edit", { product, purchase });
-});
-
 app.put("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
     const data = req.body.purchase;
     data.purchaseDate = stringifyDate(data.purchaseDate);
-    if (!!data.startConsDate) {
-        data.startConsDate = stringifyDate(data.startConsDate);
-    }
-    if (!!data.endConsDate) {
-        data.endConsDate = stringifyDate(data.endConsDate);
-    }
-    await Purchase.findByIdAndUpdate(req.params.purchaseId, data, { new: true });
+    // console.log(data);
+    await Purchase.findByIdAndUpdate(req.params.purchaseId, data);
     const productPath = `${req.params.id}-${req.params.name}`;
-    res.redirect(`/products/${productPath}?tab=purchases`);
+    res.redirect(`/products/${productPath}?tab=purchases&purchase=${req.params.purchaseId}`);
 });
 
 app.delete("/products/:id-:name/purchases/:purchaseId", async (req, res) => {

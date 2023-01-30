@@ -1,4 +1,4 @@
-<div class="modal fade" id="detailsModal<%= purchase._id %>" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="detailsModal<%= purchase._id %>" aria-hidden="true" aria-labelledby="DetailsModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content bg-secondary text-primary mx-sm-0 mx-5 border-info">
             <div class="modal-header border border-0">
@@ -17,7 +17,7 @@
                 <% if (product.trackUsagePeriod) { %>
                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateModal<%= purchase._id %>">Update Usage Period</button>
                 <% } %>
-                <button class="btn btn-light" data-bs-dismiss="modal">Edit Purchase</button>
+                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal<%= purchase._id %>">Edit Purchase</button>
                 <form class="d-flex flex-column" action="/products/<%= product.path %>/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-primary">Delete</button>
                 </form>
@@ -25,4 +25,6 @@
         </div>
     </div>
 </div>
-<% if (product.trackUsagePeriod) { %> <%- include("../purchases/updateDates", {purchase: purchase}) %><% } %>
+
+<% if (product.trackUsagePeriod) { %> <%- include("../purchases/updateDates", {purchase: purchase}) %><% } %> <%- include("../purchases/edit",
+{purchase: purchase}) %>

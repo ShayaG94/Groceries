@@ -1,75 +1,71 @@
-<% layout("layouts/boilerplate") %>
-<h1 class="text-primary text-center mb-2"><%= product.title %></h1>
-<h2 class="text-primary text-center mb-3">Edit Purchase:</h2>
-<div class="d-flex justify-content-center text-primary">
-    <form
-        action="/products/<%= product.path %>/purchases/<%= purchase._id %>?_method=PUT"
-        method="POST"
-        class="d-flex flex-column bg-secondary px-4 py-3 rounded align-items-stretch"
-    >
-        <div class="d-flex justify-content-between flex-column flex-md-row mb-3">
-            <div class="form-floating mb-2 mb-md-0">
-                <input
-                    type="text"
-                    class="form-control bg-light"
-                    id="storeName"
-                    name="purchase[store][name]"
-                    value="<%= purchase.store.name %> "
-                    required
-                />
-                <label for="storeName" class="form-label">Store Name</label>
+<div class="modal fade" id="editModal<%= purchase._id %>" aria-hidden="true" aria-labelledby="EditModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content bg-secondary text-primary mx-sm-0 mx-5 border-info">
+            <div class="modal-header border border-0">
+                <h2 class="modal-title fs-5" id="editModalLabel">Edit Purchase</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="form-floating">
-                <input
-                    type="text"
-                    class="form-control bg-light mb-2 mb-md-0"
-                    id="storeBranch"
-                    name="purchase[store][branch]"
-                    value="<%= purchase.store.branch %>"
-                />
-                <label for="storeBranch" class="form-label">Store Branch</label>
+            <div class="modal-body py-0 flex-column align-items-center">
+                <form action="/products/<%= product.path %>/purchases/<%= purchase._id %>?_method=PUT" method="POST">
+                    <div class="d-flex flex-column form-floating justify-content-center align-items-center mb-3">
+                        <input
+                            type="text"
+                            class="form-control bg-light"
+                            id="storeName"
+                            name="purchase[store][name]"
+                            value="<%= purchase.store.name %>"
+                            placeholder="Store Name"
+                            required
+                        />
+                        <label for="storeName" class="form-label">Store Name</label>
+                    </div>
+                    <div class="d-flex flex-column form-floating justify-content-center align-items-center mb-3">
+                        <input
+                            type="text"
+                            class="form-control bg-light mb-2 mb-md-0"
+                            id="storeBranch"
+                            name="purchase[store][branch]"
+                            value="<%= purchase.store.branch %>"
+                            placeholder="Store Branch"
+                        />
+                        <label for="storeBranch" class="form-label">Store Branch</label>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-baseline mb-3 ps-2">
+                        <label for="purchaseDate" class="form-label me-md-2">Purchase Date:</label>
+                        <input
+                            class="form-control bg-light w-50"
+                            type="date"
+                            id="purchaseDate"
+                            name="purchase[purchaseDate]"
+                            value="<%= inputifyDate(purchase.purchaseDate) %>"
+                            required
+                        />
+                    </div>
+                    <div class="input-group justify-content-center mb-3">
+                        <input type="number" class="form-control bg-light flex-grow-0 w-40 text-center" id="quantity" name="purchase[quantity]"
+                        step="0.001" value="<%= purchase.info.amount.split(" ")[0] %>" required />
+                        <span class="input-group-text border-info bg-secondary capitalize"><%= purchase.info.amount.split(" ")[1] %></span>
+                    </div>
+                    <div class="input-group justify-content-center mb-3">
+                        <span class="input-group-text border-info bg-secondary">&#8362;</span>
+                        <input
+                            type="number"
+                            class="form-control bg-light flex-grow-0 w-50 text-center"
+                            id="price"
+                            name="purchase[price]"
+                            step="0.01"
+                            value="<%= purchase.info.price.slice(1) %>"
+                            required
+                        />
+                    </div>
+                    <div class="d-flex flex-column align-items-stretch border-0 pt-2 pb-0">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer flex-column align-items-stretch border-0 pt-0">
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailsModal<%= purchase._id %>">Back</button>
             </div>
         </div>
-        <div class="d-flex flex-row justify-content-center align-items-center mb-3">
-            <label for="purchaseDate" class="form-label me-2">Purchase Date:</label>
-            <input
-                class="form-control bg-light"
-                type="date"
-                id="purchaseDate"
-                name="purchase[purchaseDate]"
-                value="<%= inputifyDate(purchase.purchaseDate) %>"
-                required
-            />
-        </div>
-        <div class="d-flex justify-content-between flex-column flex-md-row mb-3">
-            <div class="input-group justify-content-center mb-2 mb-md-0">
-                <input
-                    type="number"
-                    class="form-control bg-light flex-grow-0 w-60"
-                    id="quantity"
-                    name="purchase[quantity]"
-                    step="0.001"
-                    value="<%= purchase.quantity %>"
-                    required
-                />
-                <span class="input-group-text border-info bg-secondary capitalize"><%= product.measureUnit %></span>
-            </div>
-            <div class="input-group justify-content-center">
-                <input
-                    type="number"
-                    class="form-control bg-light flex-grow-0 w-60"
-                    id="price"
-                    name="purchase[price]"
-                    step="0.01"
-                    value="<%= purchase.price %>"
-                    required
-                />
-                <span class="input-group-text border-info bg-secondary">&#8362;</span>
-            </div>
-        </div>
-        <div class="d-flex flex-column flex-md-row mb-3">
-            <a href="/products/<%= product.path %>?tab=purchases" class="btn btn-info mb-2 me-0 me-md-3 mb-md-0">Back to Purchases</a>
-            <button class="btn btn-info" type="submit">Update Purchase</button>
-        </div>
-    </form>
+    </div>
 </div>

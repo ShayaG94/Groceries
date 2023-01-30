@@ -1,12 +1,12 @@
-<div class="modal fade" id="updateModal<%= purchase._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateModal<%= purchase._id %>" aria-hidden="true" aria-labelledby="UpdateModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content bg-secondary text-primary mx-sm-0 mx-5 border-info">
             <div class="modal-header border border-0">
                 <h2 class="modal-title fs-5" id="updateModalLabel">Update Usage Period</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>/dates?_method=PATCH" method="POST">
-                <div class="modal-body py-0 d-flex flex-column align-items-center">
+            <div class="modal-body py-0 flex-column align-items-center">
+                <form action="/products/<%= product.path %>/purchases/<%=purchase._id%>/dates?_method=PATCH" method="POST">
                     <div class="d-flex flex-column justify-content-center align-items-center mb-3">
                         <label for="startConsDate" class="form-label">Start Usage Date:</label>
                         <input
@@ -17,7 +17,7 @@
                             value="<%= inputifyDate(purchase.startConsDate) %>"
                         />
                     </div>
-                    <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div class="d-flex flex-column justify-content-center align-items-center mb-3">
                         <label for="endConsDate" class="form-label">End Usage Date:</label>
                         <input
                             class="form-control bg-light"
@@ -27,13 +27,13 @@
                             value="<%= inputifyDate(purchase.endConsDate) %>"
                         />
                     </div>
-                </div>
-                <div class="modal-footer d-flex flex-column align-items-stretch border-0 pt-2 pb-0">
-                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModal">Save</button>
-                </div>
-            </form>
-            <div class="modal-footer d-flex flex-column align-items-stretch border-0 pt-0">
-                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailsModal">Close</button>
+                    <div class="d-flex flex-column align-items-stretch border-0 pt-2 pb-0">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer flex-column align-items-stretch border-0 pt-0">
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailsModal<%= purchase._id %>">Back</button>
             </div>
         </div>
     </div>
