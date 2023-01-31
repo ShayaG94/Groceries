@@ -21,7 +21,7 @@ PurchaseSchema.virtual("daysUsed").get(function () {
         const endDate = UTCizeDate(this.endConsDate);
         return calcDaysDifference(startDate, endDate) + 1;
     }
-    return undefined;
+    return 0;
 });
 
 const Purchase = mongoose.model("Purchase", PurchaseSchema);

@@ -30,3 +30,25 @@ if (endTabName > 0) {
         purchaseDiv.click();
     });
 }
+
+const updateLink = document.querySelector("#stats-tab-pane > div > div > div:nth-child(4) > div > div:nth-child(2)");
+if (updateLink.innerText === "Update Usage") {
+    updateLink.addEventListener("mouseover", function (e) {
+        this.style.textDecoration = "underline";
+        this.style.cursor = "pointer";
+    });
+    updateLink.addEventListener("click", () => {
+        tabs[1].click();
+    });
+    updateLink.addEventListener("mouseout", function (e) {
+        this.style.textDecoration = "none";
+    });
+}
+
+const header = document.querySelector("body > main > header");
+const resize_ob = new ResizeObserver(function (entries) {
+    const rect = entries[0].contentRect;
+    header.style.top = `${rect.bottom + 8}px`;
+});
+const navbar = document.querySelector("body > nav");
+resize_ob.observe(navbar);

@@ -172,7 +172,6 @@ app.patch("/products/:id-:name/purchases/:purchaseId/dates", async (req, res) =>
 app.put("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
     const data = req.body.purchase;
     data.purchaseDate = stringifyDate(data.purchaseDate);
-    // console.log(data);
     await Purchase.findByIdAndUpdate(req.params.purchaseId, data);
     const productPath = `${req.params.id}-${req.params.name}`;
     res.redirect(`/products/${productPath}?tab=purchases&purchase=${req.params.purchaseId}`);

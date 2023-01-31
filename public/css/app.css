@@ -145,10 +145,10 @@
     border: 2px solid var(--blue-dark)!important;
 }
 
-header.position-sticky{
+/* header.position-sticky{
     top: 56px;
     z-index: 1020;
-}
+} */
 
 img.navbar-brand {
     max-height: 100%;

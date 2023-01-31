@@ -41,7 +41,9 @@ function getTotalSpent(product) {
 }
 
 function getTotalConsumptionDays(product) {
-    return product.purchases.reduce((acc, purchase) => acc + purchase.daysUsed, 0);
+    return product.purchases.reduce((acc, purchase) => {
+        return acc + purchase.daysUsed;
+    }, 0);
 }
 
 function getTotalUsageDays(product) {
@@ -58,9 +60,10 @@ function getProductStats(product) {
     const totalSpent = getTotalSpent(product);
     const averagePrice = totalSpent / totalBought;
     const totalConsumptionDays = getTotalConsumptionDays(product);
+    const averageMonthlyConsumption = (totalBought / totalConsumptionDays) * (365 / 12);
     const averageMonthlyCost = (totalSpent / getTotalUsageDays(product)) * (365 / 12);
     const monthlyConsumptionCost = (totalSpent / totalConsumptionDays) * (365 / 12);
-    return { totalBought, totalSpent, averagePrice, totalConsumptionDays, monthlyConsumptionCost, averageMonthlyCost };
+    return { totalBought, totalSpent, averagePrice, totalConsumptionDays, averageMonthlyConsumption, monthlyConsumptionCost, averageMonthlyCost };
 }
 
 function getPrettyStats(product) {
@@ -68,13 +71,20 @@ function getPrettyStats(product) {
     stats.totalBought = uniticizeAmount(stats.totalBought, product.measureUnit);
     stats.totalSpent = currecizePrice(stats.totalSpent);
     stats.averagePrice = `${currecizePrice(stats.averagePrice)} / ${getMeasureUnit(product.measureUnit)}`;
-    stats.totalConsumptionDays = `${stats.totalConsumptionDays} days`;
-    stats.averageMonthlyCost = currecizePrice(stats.averageMonthlyCost);
     if (product.trackUsagePeriod) {
-        stats.monthlyConsumptionCost = currecizePrice(stats.monthlyConsumptionCost);
+        if (!!stats.totalConsumptionDays) {
+            stats.totalConsumptionDays = `${stats.totalConsumptionDays} days`;
+            stats.monthlyConsumptionCost = currecizePrice(stats.monthlyConsumptionCost);
+            stats.averageMonthlyConsumption = uniticizeAmount(stats.averageMonthlyConsumption, product.measureUnit);
+        } else {
+            stats.totalConsumptionDays = "Update Usage";
+        }
     } else {
+        delete stats.totalConsumptionDays;
         delete stats.monthlyConsumptionCost;
+        delete stats.averageMonthlyConsumption;
     }
+    stats.averageMonthlyCost = currecizePrice(stats.averageMonthlyCost);
     return stats;
 }
 
