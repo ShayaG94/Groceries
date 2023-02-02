@@ -4,9 +4,7 @@
     <div class="col-8 offset-2 d-flex flex-wrap justify-content-around mb-3 mt-auto">
         <a href="/products/<%= product.path %>/edit" class="btn btn-info mb-2 mb-md-0">Edit Product</a>
         <a href="/products/<%= product.path %>/purchases/new" class="btn btn-info mb-2 mb-md-0">Add Purchase</a>
-        <form action="/products/<%= product.path %>?_method=DELETE " method="POST">
-            <button class="btn btn-info">Delete Product</button>
-        </form>
+        <button class="btn btn-primary mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#deleteProductModal">Delete</button>
     </div>
     <ul class="nav nav-tabs mb-3 justify-content-center col-lg-8 offset-lg-2" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -45,8 +43,7 @@
         <%- include("../purchases/index") %>
     </div>
 </div>
-
-<% if (!product.purchases.length) {%>
+<%- include("./delete") %> <% if (!product.purchases.length) {%>
 <div class="d-flex justify-content-center text-primary py-2 fs-5 text-uppercase">No purchases to show</div>
 <% } %>
 

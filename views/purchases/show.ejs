@@ -18,13 +18,11 @@
                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateModal<%= purchase._id %>">Update Usage Period</button>
                 <% } %>
                 <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal<%= purchase._id %>">Edit Purchase</button>
-                <form class="d-flex flex-column" action="/products/<%= product.path %>/purchases/<%=purchase._id%>?_method=DELETE" method="POST">
-                    <button class="btn btn-primary">Delete</button>
-                </form>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deletePurchaseModal<%= purchase._id %>">Delete</button>
             </div>
         </div>
     </div>
 </div>
 
 <% if (product.trackUsagePeriod) { %> <%- include("../purchases/updateDates", {purchase: purchase}) %><% } %> <%- include("../purchases/edit",
-{purchase: purchase}) %>
+{purchase: purchase}) %> <%- include("../purchases/delete") %>

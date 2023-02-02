@@ -1,0 +1,17 @@
+<div class="modal fade" id="deleteProductModal" aria-hidden="true" aria-labelledby="DeletePoducteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content bg-secondary text-primary mx-sm-0 mx-5 border-info">
+            <div class="modal-header border border-0">
+                <h1 class="modal-title fs-5" id="deleteProductModalLabel">Delete Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">Are you sure you want to delete this product?</div>
+            <div class="modal-footer d-flex flex-column align-items-stretch border-0 pt-1">
+                <button class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <form class="d-flex flex-column" action="/products/<%= product.path %>?_method=DELETE" method="POST">
+                    <button class="btn btn-primary">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
