@@ -7,6 +7,7 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const { stringifyDate, getPrettyStats, sortByDate, getPurchaseInfo, getStorePurchases } = require("./customModules/helpers");
 const { Category } = require("./models/category");
+const { log } = require("console");
 
 mongoose.set("strictQuery", true);
 mongoose.connect("mongodb://localhost:27017/groceries-app");
@@ -134,6 +135,7 @@ app.put("/products/:id-:name", async (req, res) => {
 app.delete("/products/:id-:name", async (req, res) => {
     const product = await Product.findByIdAndDelete(req.params.id);
     await Category.updateOne({ _id: product.category }, { $pull: { products: product._id } });
+    product.purchases.forEach(async (purchase) => await Purchase.findByIdAndDelete(purchase));
     res.redirect("/products");
 });
 
