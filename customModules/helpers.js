@@ -133,7 +133,6 @@ function getPurchase(purchase, list) {
 function getStorePurchases(purchases) {
     const storePurchases = [];
     for (let purchase of purchases) {
-        console.log(purchase.productID);
         const product = {
             title: purchase.productID.title,
             price: currecizePrice(purchase.price),
