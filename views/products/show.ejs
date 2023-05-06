@@ -3,8 +3,8 @@
     <h1 class="text-primary text-center mb-3"><%= product.title %></h1>
     <div class="col-8 offset-2 d-flex flex-wrap justify-content-around mb-3 mt-auto">
         <a href="/products/<%= product.path %>/edit" class="btn btn-info mb-2 mb-md-0">Edit Product</a>
-        <a href="/products/<%= product.path %>/purchases/new" class="btn btn-info mb-2 mb-md-0">Add Purchase</a>
-        <button class="btn btn-primary mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#deleteProductModal">Delete</button>
+        <a href="/products/<%= product.path %>/purchases/new" class="btn btn-secondary mb-2 mb-md-0">Add Purchase</a>
+        <button class="btn btn-primary mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#deleteProductModal">Delete Product</button>
     </div>
     <ul class="nav nav-tabs mb-3 justify-content-center col-lg-8 offset-lg-2" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">

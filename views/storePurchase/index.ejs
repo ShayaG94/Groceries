@@ -1,0 +1,48 @@
+<% layout("layouts/boilerplate") %>
+<h1 class="text-center text-primary">Store Purchases</h1>
+<div class="accordion col-lg-10 offset-lg-1" id="accordionStorePurchases">
+    <% for (let purchase of storePurchases) {%>
+    <div class="accordion-item mb-2 rounded border-primary bg-primary">
+        <h2 class="accordion-header rounded" id="label<%= purchase.purchaseDate %>">
+            <button
+                class="accordion-button collapsed rounded bg-secondary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse<%= purchase._id %>"
+                aria-expanded="false"
+                aria-controls="collapse<%= purchase._id %>"
+            >
+                <div class="d-flex flex-column flex-md-row">
+                    <div class="me-2 text-primary">
+                        <span class="fw-bold"><%= purchase.purchaseDate %> - <%= purchase.store.name %></span>
+                        <small class="fw-semibold"><%= purchase.store.branch %></small>
+                    </div>
+                    <div class="d-flex flex-row text-info fw-semibold">
+                        <div>Products: <%= purchase.products.length %></div>
+                        <div class="vr text-primary mx-2"></div>
+                        <div>Total: <%= purchase.prettySum %></div>
+                    </div>
+                </div>
+            </button>
+        </h2>
+        <div
+            id="collapse<%= purchase._id %>"
+            class="accordion-collapse collapse rounded"
+            aria-labelledby="label<%= purchase.purchaseDate %>"
+            data-bs-parent="#accordionStorePurchases"
+        >
+            <div class="accordion-body bg-primary text-secondary rounded">
+                <div class="d-flex flex-column">
+                    <% for (let product of purchase.products) {%>
+                    <div class="d-flex">
+                        <% for (const data in product) {%>
+                        <div class="col-5 col-md-3"><%= product[data] %></div>
+                        <% } %>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>

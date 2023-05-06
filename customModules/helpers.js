@@ -113,6 +113,48 @@ function sortByDate(date1, date2, direction) {
     return 0;
 }
 
+function getPurchase(purchase, list) {
+    const { purchaseDate, store } = purchase;
+    const sameDate = list.filter((purchase) => purchase.purchaseDate === purchaseDate);
+    const sameStore = sameDate.filter((purchase) => purchase.store.name === store.name);
+    const sameBranch = sameStore.filter((purchase) => purchase.store.branch === store.branch);
+    if (!sameDate.length) {
+        return false;
+    } else if (!sameStore.length) {
+        return false;
+    } else if (!sameBranch.length) {
+        return false;
+    } else {
+        [foundPurchase] = sameBranch;
+        return foundPurchase;
+    }
+}
+
+function getStorePurchases(purchases) {
+    const storePurchases = [];
+    for (let purchase of purchases) {
+        console.log(purchase.productID);
+        const product = {
+            title: purchase.productID.title,
+            price: currecizePrice(purchase.price),
+            amount: uniticizeAmount(purchase.quantity, purchase.productID.measureUnit),
+        };
+        const storePurchase = getPurchase(purchase, storePurchases);
+        if (!storePurchase) {
+            purchase.products = [];
+            purchase.sum = purchase.price;
+            purchase.prettySum = currecizePrice(purchase.sum);
+            purchase.products.push(product);
+            storePurchases.push(purchase);
+        } else {
+            storePurchase.sum += purchase.price;
+            storePurchase.prettySum = currecizePrice(storePurchase.sum);
+            storePurchase.products.push(product);
+        }
+    }
+    return storePurchases;
+}
+
 module.exports = {
     UTCizeDate,
     calcDaysDifference,
@@ -123,4 +165,5 @@ module.exports = {
     uniticizeAmount,
     sortByDate,
     getPurchaseInfo,
+    getStorePurchases,
 };

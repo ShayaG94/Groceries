@@ -5,7 +5,7 @@ const { Product } = require("./models/product");
 const { Purchase } = require("./models/purchase");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-const { stringifyDate, getPrettyStats, sortByDate, getPurchaseInfo } = require("./customModules/helpers");
+const { stringifyDate, getPrettyStats, sortByDate, getPurchaseInfo, getStorePurchases } = require("./customModules/helpers");
 const { Category } = require("./models/category");
 
 mongoose.set("strictQuery", true);
@@ -181,6 +181,23 @@ app.delete("/products/:id-:name/purchases/:purchaseId", async (req, res) => {
     await Purchase.findByIdAndDelete(req.params.purchaseId);
     const productPath = `${req.params.id}-${req.params.name}`;
     res.redirect(`/products/${productPath}/?tab=purchases`);
+});
+
+app.get("/store_purchases", async (req, res) => {
+    const purchases = await Purchase.find({}).populate("productID");
+    purchases.sort((a, b) => sortByDate(a.purchaseDate, b.purchaseDate, 1));
+    const storePurchases = getStorePurchases(purchases);
+    storePurchases.sort((a, b) => sortByDate(a.purchaseDate, b.purchaseDate, -1));
+    res.render("storePurchase/index", { storePurchases });
+});
+
+app.get("/store_purchases/new", async (req, res) => {
+    res.render("storePurchase/new");
+});
+
+app.post("/store_purchases", async (req, res) => {
+    console.log(req.body);
+    res.redirect("/store_purchases/index");
 });
 
 app.listen(3000, () => {

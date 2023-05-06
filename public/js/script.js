@@ -9,3 +9,7 @@ function addCat() {
     newOption.innerText = newCat;
     document.querySelector("select").appendChild(newOption);
 }
+
+document
+    .querySelectorAll("#accordionStorePurchases .accordion-collapse > div > div > div > div:nth-child(2)")
+    .forEach((price) => (price.classList = "col-2"));
