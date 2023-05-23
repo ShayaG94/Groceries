@@ -24,6 +24,4 @@ PurchaseSchema.virtual("daysUsed").get(function () {
     return 0;
 });
 
-const Purchase = mongoose.model("Purchase", PurchaseSchema);
-
-module.exports = { Purchase };
+module.exports = mongoose.model("Purchase", PurchaseSchema);

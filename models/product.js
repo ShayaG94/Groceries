@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { Purchase } = require("./purchase");
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
@@ -25,6 +24,4 @@ ProductSchema.virtual("populizedCategory").get(async function () {
     return this.category.name;
 });
 
-const Product = mongoose.model("Product", ProductSchema);
-
-module.exports = { Product };
+module.exports = mongoose.model("Product", ProductSchema);
