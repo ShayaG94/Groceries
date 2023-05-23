@@ -60,10 +60,10 @@ function getProductStats(product) {
     const totalSpent = getTotalSpent(product);
     const averagePrice = totalSpent / totalBought;
     const totalConsumptionDays = getTotalConsumptionDays(product);
-    const averageMonthlyConsumption = (totalBought / totalConsumptionDays) * (365 / 12);
+    const monthlyConsumption = (totalBought / totalConsumptionDays) * (365 / 12);
     const averageMonthlyCost = (totalSpent / getTotalUsageDays(product)) * (365 / 12);
     const monthlyConsumptionCost = (totalSpent / totalConsumptionDays) * (365 / 12);
-    return { totalBought, totalSpent, averagePrice, totalConsumptionDays, averageMonthlyConsumption, monthlyConsumptionCost, averageMonthlyCost };
+    return { totalBought, totalSpent, averagePrice, totalConsumptionDays, monthlyConsumption, monthlyConsumptionCost, averageMonthlyCost };
 }
 
 function getPrettyStats(product) {
@@ -75,14 +75,14 @@ function getPrettyStats(product) {
         if (!!stats.totalConsumptionDays) {
             stats.totalConsumptionDays = `${stats.totalConsumptionDays} days`;
             stats.monthlyConsumptionCost = currecizePrice(stats.monthlyConsumptionCost);
-            stats.averageMonthlyConsumption = uniticizeAmount(stats.averageMonthlyConsumption, product.measureUnit);
+            stats.monthlyConsumption = uniticizeAmount(stats.monthlyConsumption, product.measureUnit);
         } else {
             stats.totalConsumptionDays = "Update Usage";
         }
     } else {
         delete stats.totalConsumptionDays;
         delete stats.monthlyConsumptionCost;
-        delete stats.averageMonthlyConsumption;
+        delete stats.monthlyConsumption;
     }
     stats.averageMonthlyCost = currecizePrice(stats.averageMonthlyCost);
     return stats;
