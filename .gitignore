@@ -1,3 +1,5 @@
+.gitignore
 node_modules/
 store.js
 views/storePurchase/new.ejs
+test.ejs
