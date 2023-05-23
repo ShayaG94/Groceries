@@ -1,13 +1,13 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const { Product } = require("./models/product");
-const { Purchase } = require("./models/purchase");
+const Product = require("./models/product");
+const Purchase = require("./models/purchase");
+const Category = require("./models/category");
+
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const { stringifyDate, getPrettyStats, sortByDate, getPurchaseInfo, getStorePurchases } = require("./customModules/helpers");
-const { Category } = require("./models/category");
-const { log } = require("console");
 
 mongoose.set("strictQuery", true);
 mongoose.connect("mongodb://localhost:27017/groceries-app");
