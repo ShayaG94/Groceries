@@ -1,0 +1,49 @@
+<% layout("layouts/boilerplate") %>
+<h1 class="text-center text-primary">Log Store Purchase</h1>
+
+<form class="mt-3" action="/store_purchases" method="POST">
+    <div class="d-flex flex-row justify-content-around">
+        <div class="form-floating">
+            <input type="text" class="form-control bg-light" id="storeName" name="purchase[store][name]" placeholder="Store Name" required />
+            <label for="storeName" class="form-label">Store Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control bg-light" id="storeBranch" name="purchase[store][branch]" placeholder="Store Branch" required />
+            <label for="storeBranch" class="form-label">Store Branch</label>
+        </div>
+        <div class="d-flex flex-row justify-content-center align-items-center mb-3">
+            <label for="purchaseDate" class="form-label me-2">Purchase Date:</label>
+            <input class="form-control bg-light" type="date" id="purchaseDate" name="purchase[purchaseDate]" required />
+        </div>
+    </div>
+    <div class="bg-secondary d-flex flex-row justify-content-around rounded py-2 mt-3">
+        <div class="form-floating">
+            <input type="text" class="form-control bg-light" id="productTitle" name="product[title]" placeholder="Product" required />
+            <label for="productTitle" class="form-label">Product</label>
+        </div>
+        <div class="input-group w-auto">
+            <input
+                type="number"
+                class="form-control bg-light"
+                id="productQuantity"
+                name="purchase[quantity]"
+                step="0.001"
+                placeholder="Quantity"
+                required
+            />
+            <span class="input-group-text border-info bg-secondary capitalize">{ MU }</span>
+        </div>
+        <div class="input-group w-auto">
+            <input
+                type="number"
+                class="form-control bg-light flex-grow-0 w-60"
+                id="price"
+                name="purchase[price]"
+                step="0.01"
+                placeholder="Price"
+                required
+            />
+            <span class="input-group-text border-info bg-secondary">&#8362;</span>
+        </div>
+    </div>
+</form>
