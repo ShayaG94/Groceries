@@ -8,6 +8,10 @@ addProductBtn.addEventListener("click", (e) => {
     const newProductForm = baseProductForm.cloneNode(true);
 
     for (let child of newProductForm.children) {
+        if (child.type === "button") {
+            child.addEventListener("click", deleteParentNode);
+            continue;
+        }
         const updateNode = child.firstElementChild;
         updateNode.id = updateNode.id.replace(/\d{1,2}/, newFormIndex);
         updateNode.name = updateNode.name.replace(/\d{1,2}/, newFormIndex);
@@ -18,3 +22,12 @@ addProductBtn.addEventListener("click", (e) => {
 
     productsForm.insertBefore(newProductForm, productsForm.firstChild);
 });
+
+const deleteProductBtns = document.querySelectorAll(".deleteProduct");
+deleteProductBtns.forEach((btn) => {
+    btn.addEventListener("click", deleteParentNode);
+});
+
+function deleteParentNode() {
+    this.parentNode.remove();
+}
