@@ -198,8 +198,8 @@ app.get("/store_purchases/new", async (req, res) => {
 });
 
 app.post("/store_purchases", async (req, res) => {
-    // console.log(req.body);
-    res.redirect("/store_purchases/index");
+    console.log(req.body);
+    res.redirect("/store_purchases/new");
 });
 
 app.listen(3000, () => {

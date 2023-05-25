@@ -16,34 +16,69 @@
             <input class="form-control bg-light" type="date" id="purchaseDate" name="purchase[purchaseDate]" required />
         </div>
     </div>
-    <div class="bg-secondary d-flex flex-row justify-content-around rounded py-2 mt-3">
-        <div class="form-floating">
-            <input type="text" class="form-control bg-light" id="productTitle" name="product[title]" placeholder="Product" required />
-            <label for="productTitle" class="form-label">Product</label>
+    <button class="btn btn-secondary" id="addProduct">Add Product</button>
+    <div id="productsForm">
+        <div class="bg-secondary d-flex flex-row justify-content-around rounded py-2 mt-3">
+            <div class="form-floating">
+                <input type="text" class="form-control bg-light" id="productTitle1" name="product[1][title]" placeholder="Product" required />
+                <label for="productTitle" class="form-label">Product</label>
+            </div>
+            <div class="input-group w-auto">
+                <input
+                    type="number"
+                    class="form-control bg-light"
+                    id="productQuantity1"
+                    name="product[1][quantity]"
+                    step="0.001"
+                    placeholder="Quantity"
+                    required
+                />
+                <span class="input-group-text border-info bg-secondary capitalize">{ MU }</span>
+            </div>
+            <div class="input-group w-auto">
+                <input
+                    type="number"
+                    class="form-control bg-light flex-grow-0 w-60"
+                    id="price1"
+                    name="product[1][price]"
+                    step="0.01"
+                    placeholder="Price"
+                    required
+                />
+                <span class="input-group-text border-info bg-secondary">&#8362;</span>
+            </div>
         </div>
-        <div class="input-group w-auto">
-            <input
-                type="number"
-                class="form-control bg-light"
-                id="productQuantity"
-                name="purchase[quantity]"
-                step="0.001"
-                placeholder="Quantity"
-                required
-            />
-            <span class="input-group-text border-info bg-secondary capitalize">{ MU }</span>
-        </div>
-        <div class="input-group w-auto">
-            <input
-                type="number"
-                class="form-control bg-light flex-grow-0 w-60"
-                id="price"
-                name="purchase[price]"
-                step="0.01"
-                placeholder="Price"
-                required
-            />
-            <span class="input-group-text border-info bg-secondary">&#8362;</span>
+        <div class="bg-secondary d-flex flex-row justify-content-around rounded py-2 mt-3 d-none" id="baseProductForm">
+            <div class="form-floating">
+                <input type="text" class="form-control bg-light" id="productTitle0" name="product[0][title]" placeholder="Product" required />
+                <label for="productTitle" class="form-label">Product</label>
+            </div>
+            <div class="input-group w-auto">
+                <input
+                    type="number"
+                    class="form-control bg-light"
+                    id="productQuantity0"
+                    name="product[0][quantity]"
+                    step="0.001"
+                    placeholder="Quantity"
+                    required
+                />
+                <span class="input-group-text border-info bg-secondary capitalize">{ MU }</span>
+            </div>
+            <div class="input-group w-auto">
+                <input
+                    type="number"
+                    class="form-control bg-light flex-grow-0 w-60"
+                    id="price0"
+                    name="product[0][price]"
+                    step="0.01"
+                    placeholder="Price"
+                    required
+                />
+                <span class="input-group-text border-info bg-secondary">&#8362;</span>
+            </div>
         </div>
     </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
 </form>
+<script src="../../public/js/storePurchases/storePurchases.js"></script>
