@@ -7,14 +7,19 @@ addProductBtn.addEventListener("click", (e) => {
     const newFormIndex = productsForm.childElementCount + 1;
     const newProductForm = baseProductForm.cloneNode(true);
 
-    for (let child of newProductForm.children) {
-        if (child.type === "button") {
-            child.addEventListener("click", deleteParentNode);
+    for (let formChild of newProductForm.children) {
+        if (formChild.type === "button") {
+            formChild.addEventListener("click", deleteParentNode);
             continue;
         }
-        const updateNode = child.firstElementChild;
-        updateNode.id = updateNode.id.replace(/\d{1,2}/, newFormIndex);
-        updateNode.name = updateNode.name.replace(/\d{1,2}/, newFormIndex);
+        for (let grandChild of formChild.children) {
+            if (grandChild.nodeName === "INPUT") {
+                grandChild.id = grandChild.id.replace(/\d{1,2}/, newFormIndex);
+                grandChild.name = grandChild.name.replace(/\d{1,2}/, newFormIndex);
+            } else if (grandChild.nodeName === "LABEL") {
+                grandChild.attributes.for.value = grandChild.attributes.for.value.replace(/\d{1,2}/, newFormIndex);
+            }
+        }
     }
 
     newProductForm.removeAttribute("id");
