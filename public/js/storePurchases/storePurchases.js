@@ -1,8 +1,7 @@
 const baseProductForm = document.querySelector("#baseProductForm");
 const addProductBtn = document.querySelector("#addProduct");
 
-addProductBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+const addPoroductForm = function () {
     const productsForm = document.querySelector("#productsForm");
     const newFormIndex = productsForm.childElementCount + 1;
     const newProductForm = baseProductForm.cloneNode(true);
@@ -26,6 +25,13 @@ addProductBtn.addEventListener("click", (e) => {
     newProductForm.classList.remove("d-none");
 
     productsForm.insertBefore(newProductForm, productsForm.firstChild);
+};
+
+addEventListener("DOMContentLoaded", addPoroductForm);
+
+addProductBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    addPoroductForm();
 });
 
 const deleteProductBtns = document.querySelectorAll(".deleteProduct");

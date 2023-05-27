@@ -17,39 +17,7 @@
         </div>
     </div>
     <button type="button" class="btn btn-secondary" id="addProduct">Add Product</button>
-    <div id="productsForm">
-        <div class="bg-secondary d-flex flex-row justify-content-around rounded py-2 mt-3">
-            <div class="form-floating">
-                <input type="text" class="form-control bg-light" id="productTitle1" name="products[1][title]" placeholder="Product" required />
-                <label for="productTitle1" class="form-label">Product</label>
-            </div>
-            <div class="input-group w-auto">
-                <input
-                    type="number"
-                    class="form-control bg-light"
-                    id="productQuantity1"
-                    name="products[1][quantity]"
-                    step="0.001"
-                    placeholder="Quantity"
-                    required
-                />
-                <span class="input-group-text border-info bg-secondary capitalize">{ MU }</span>
-            </div>
-            <div class="input-group w-auto">
-                <input
-                    type="number"
-                    class="form-control bg-light flex-grow-0 w-60"
-                    id="price1"
-                    name="products[1][price]"
-                    step="0.01"
-                    placeholder="Price"
-                    required
-                />
-                <span class="input-group-text border-info bg-secondary">&#8362;</span>
-            </div>
-            <button type="button" class="btn-close deleteProduct" aria-label="Delete"></button>
-        </div>
-    </div>
+    <div id="productsForm"></div>
     <button class="btn btn-primary" type="submit">Submit</button>
 </form>
 
