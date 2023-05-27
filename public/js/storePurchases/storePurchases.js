@@ -1,7 +1,7 @@
 const baseProductForm = document.querySelector("#baseProductForm");
 const addProductBtn = document.querySelector("#addProduct");
 
-const addPoroductForm = function () {
+const addPorductForm = function () {
     const productsForm = document.querySelector("#productsForm");
     const newFormIndex = productsForm.childElementCount + 1;
     const newProductForm = baseProductForm.cloneNode(true);
@@ -27,11 +27,11 @@ const addPoroductForm = function () {
     productsForm.insertBefore(newProductForm, productsForm.firstChild);
 };
 
-addEventListener("DOMContentLoaded", addPoroductForm);
+addEventListener("DOMContentLoaded", addPorductForm);
 
 addProductBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    addPoroductForm();
+    addPorductForm();
 });
 
 const deleteProductBtns = document.querySelectorAll(".deleteProduct");
